@@ -1,0 +1,100 @@
+* {
+    font-family: Calibri;
+}
+
+body {
+    background-color: #dcfae6;
+    width: 100%;
+    height: 100%;
+    margin: 0 0 0 0;
+}
+
+header {
+    display: flex;
+    background-color: #279c40;
+    width: 100%;
+    height: 2rem;
+}
+
+header>div {
+    padding-left: 0.4%;
+    width: 5%;
+    font-size: 20px;
+}
+.bar-text {
+    
+    vertical-align: middle;
+}
+main {
+    padding-top: 2%;
+}
+
+.card {
+    margin-left: 14%;
+    margin-right: 14%;
+    background-color: white;
+    padding: 0.1% 0.9% 0.1% 0.9%;
+    font-size: 100%;
+}
+
+.card-green {
+    border-left: 5px solid green;
+}
+
+.card-yellow {
+    border-left: 5px solid yellow;
+}
+
+.file,
+.edit,
+.view {
+    display: block;
+    position: relative;
+}
+
+.file-drop,
+.edit-drop,
+.view-drop {
+    position: absolute;
+    display: none;
+}
+
+.file:hover .file-drop {
+    display: block;
+}
+
+.edit:hover .edit-drop {
+    display: block;
+}
+
+.edit:focus .edit-drop {
+    display: block;
+}
+
+.view:hover .view-drop {
+    display: block;
+}
+
+.bar-item:hover {
+    background-color: #27c440;
+}
+.drop {
+    background-color: #27c440;
+    left: 0px;
+    width: 100%;
+}
+
+.drop-item {
+    display: block;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 100%;    
+    cursor: pointer;
+    color: purple;
+}
+.drop-item:hover {
+    background-color: lime;
+}
+.drop-item:active {
+    color: orangered;
+}
