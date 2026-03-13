@@ -104,6 +104,17 @@ const isClicked = ref(false);
         background-color: black;
         
         z-index: 9000;
+
+        cursor: pointer;
+
+        transition: filter 0.4s linear;
+        
+        filter: drop-shadow(0 0rem 0rem rgba(0,0,0,0));
+    }
+
+    .toolboxbutton:hover {
+        
+        filter: drop-shadow(0 1rem 2rem rgba(88,88,88,88));
     }
 
     @keyframes button1 {
