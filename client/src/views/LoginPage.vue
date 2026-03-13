@@ -26,7 +26,7 @@ function login() {
             </div>
             <div>
                  <div class="w-full h-full flex flex-wrap justify-center items-center text-4xl">
-                    <p>Username: &nbsp;</p>
+                    <p>Username:</p>
                     <input class="loginbox" type="text" name="loginbox" id="loginbox">
                     <RouterLink class="toolboxbutton" to="/">
                     <button class="loginbutton" type="button" @click="login()">
@@ -35,9 +35,6 @@ function login() {
                     </button>
                     </RouterLink>
                  </div>
-                 <div class="flex justify-center items-center">
-                     <!--<input type="button" value="Login!" @click="user.user.username = input">-->
-                </div>
             </div>
         </div>
     </div>
@@ -53,7 +50,7 @@ function login() {
     }
 
     .loginbox {
-        border-radius: 10%;
+        border-radius: 10% / 90%;
         border: 2px solid black;
         background-color: rgba(88,88,88,0.3);
         transform-origin: center;

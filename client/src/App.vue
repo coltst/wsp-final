@@ -6,10 +6,8 @@ import Toolbox from '@/components/Toolbox.vue';
 
 
 <template>
-  <div class="page">
    <RouterView />
     <Toolbox />
-  </div>
 </template>
 
 <style scoped>

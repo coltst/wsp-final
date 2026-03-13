@@ -13,6 +13,11 @@ body {
     background-size: 150% 150%;
 }
 
+#app {
+    width: 100%;
+    height: 100%;
+}
+
 @keyframes bodybkg {
     from {background-position: 0%;}
     to {background-position: 10%;}
