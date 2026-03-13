@@ -7,7 +7,7 @@ const userStore = useUserStore();
 </script>
 
 <template>
-    {{ userStore.user.username }}
+    <main>Welcome, {{ userStore.user.username }}</main>
 </template>
 
 <style scoped>
