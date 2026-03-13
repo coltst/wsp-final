@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faHouse, faUser } from '@fortawesome/free-solid-svg-icons'
 
 const isClicked = ref(false);
 </script>
@@ -12,12 +12,12 @@ const isClicked = ref(false);
     <div class="toolbox toolboxinner">
     </div>
     </div>
-    <div class="toolboxbutton" v-if="isClicked" >
-        <FontAwesomeIcon :icon="faHouse" inverse />
+    <RouterLink class="toolboxbutton" v-if="isClicked" to="/login">
+        <FontAwesomeIcon :icon="faUser" inverse />
         <div class="toolbox toolboxbuttoninner">
 
         </div>
-    </div>
+    </RouterLink>
 </template>
 
 <style scoped>
