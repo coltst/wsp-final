@@ -71,7 +71,7 @@ const isClicked = ref(false);
         background: linear-gradient(180deg, rgba(255,255,255,255), rgba(136,136,136,0));
 
         
-        transition: all 0.4s ease-in-out;
+        transition: all 0.5s ease-in-out;
     }
 
     .toolboxouter:hover > .toolboxinner {
