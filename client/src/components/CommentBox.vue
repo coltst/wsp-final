@@ -22,10 +22,10 @@ function sendComment() {
 </script>
 
 <template>
-    <div class="commentcontainer">
+    <div class="h-full w-full commentcontainer">
         <div class="h-full w-full p-4">
-            <textarea class="input" id="input" />
-            <button class="sendbutton" @click="sendComment">
+            <textarea class="h-full w-[90%] input" id="input" />
+            <button class="h-full w-[8%] sendbutton" @click="sendComment">
                 <FontAwesomeIcon :icon="faPaperPlane" />
             </button>
         </div>
@@ -33,39 +33,27 @@ function sendComment() {
 </template>
 
 <style scoped>
-.commentcontainer {
-    width: 100%;
-    height: 100%;
-
-    background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 0.5));
+.commentcontainer,
+.input,
+.sendbutton {
+    border: 1px solid grey;
+    color: rgb(180, 180, 180);
     border-radius: 1rem / 1rem;
+}
 
+.commentcontainer {
+    background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 0.5));
 }
 
 .input {
-    height: 100%;
-    width: 90%;
-
-    border-radius: 1rem / 1rem;
     background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 1));
-    border: 1px solid grey;
-    color: rgb(180, 180, 180);
-
     float: left;
     resize: none;
 }
 
 .sendbutton {
-    height: 100%;
-    width: 8%;
-
-    border-radius: 1rem / 1rem;
     background: linear-gradient(180deg, #55284F, rgba(136, 136, 136, 1));
-    border: 1px solid grey;
-    color: rgb(180, 180, 180);
-
     float: right;
-
     cursor: pointer;
 }
 </style>
