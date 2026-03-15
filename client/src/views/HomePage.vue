@@ -4,6 +4,9 @@ import MainPost from '@/components/MainPost.vue';
 import SidebarPost from '@/components/SidebarPost.vue';
 import UserInfo from '@/components/UserInfo.vue';
 
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faToolbox } from '@fortawesome/free-solid-svg-icons'
+
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
@@ -38,6 +41,14 @@ function canComment() {
             <div class="col-start-2 row-start-2 col-span-3 p-4 mainpanel overflow-y-scroll"
                 :class="{ 'row-span-9': canComment(), 'row-span-11': !canComment() }">
                 <MainPost v-if="displayedPost ? true : false" :post="displayedPost" />
+                <div class="help w-full h-full flex items-center justify-center flex-col"
+                    v-if="displayedPost ? false : true">
+                    <p>Welcome to the forum!</p>
+                    <p>Click a post at the left to read the content and comments.</p>
+                    <p>Click the Toolbox
+                        <FontAwesomeIcon :icon="faToolbox" /> to log in, then view your profile or post!
+                    </p>
+                </div>
             </div>
             <!--overlay the comment box-->
             <div v-if="canComment()" class="col-start-2 row-start-11 col-span-3 row-span-2 z-90">
@@ -53,4 +64,7 @@ function canComment() {
     background: black;
     color: white;
 }*/
+.help>* {
+    color: #dddddd;
+}
 </style>
