@@ -147,3 +147,8 @@ body {
     border-radius: 0.5rem;
     width: 75%;
 }
+
+.infopanel, .infopanel > * {
+    color: #dddddd;
+    text-align: center;
+}
