@@ -24,13 +24,13 @@ const isClicked = ref(false);
 .toolboxouter {
     z-index: 9001;
     position: absolute;
-    right: 4rem;
-    bottom: 2rem;
+    right: 4%;
+    bottom: 4%;
 
     width: 4rem;
     height: 4rem;
 
-    border-radius: 2rem;
+    border-radius: 50%;
     border: 1px solid black;
     filter: drop-shadow(0 0.3rem 0.3rem black);
     --l: #6a5371;
@@ -42,13 +42,8 @@ const isClicked = ref(false);
 
 .toolboxouter:hover {
 
-    width: 5rem;
-    height: 5rem;
-
-    right: 3.5rem;
-    bottom: 2rem;
-    border-radius: 4rem;
-
+    transform: scale(1.5);
+    transform-origin: center;
 
     --l: #b070c4;
     --r: #c965d6;
@@ -60,14 +55,13 @@ const isClicked = ref(false);
 
     z-index: 9002;
     position: absolute;
-    right: 1rem;
-    bottom: 1.4rem;
+    right: 24%;
+    bottom: 39%;
 
     width: 2rem;
     height: 2rem;
 
-    border-radius: 1rem;
-
+    border-radius: 50%;
 
     filter: drop-shadow(0 1rem 2rem black);
     background: linear-gradient(180deg, rgba(255, 255, 255, 255), rgba(136, 136, 136, 0));
@@ -77,15 +71,9 @@ const isClicked = ref(false);
 }
 
 .toolboxouter:hover>.toolboxinner {
-
-    width: 3rem;
-    height: 3rem;
-
-    right: 1rem;
-    bottom: 1.4rem;
-    border-radius: 4rem;
+    transform: scale(1.3);
+    transform-origin: center;
 }
-
 
 .toolboxbutton {
     display: flex;
@@ -94,15 +82,15 @@ const isClicked = ref(false);
 
     position: absolute;
 
-    right: 4.5rem;
-    bottom: 3.25rem;
+    right: 4%;
+    bottom: 4%;
 
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
 
     animation: button1 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 
-    border-radius: 1.5rem;
+    border-radius: 50%;
     background-color: black;
 
     z-index: 9000;
@@ -112,16 +100,18 @@ const isClicked = ref(false);
     transition: filter 0.4s linear;
 
     filter: drop-shadow(0 0rem 0rem rgba(0, 0, 0, 0));
+
+    transform-origin: center;
+    transform: scale(0.75);
 }
 
 .toolboxbutton:hover {
-
     filter: drop-shadow(0 1rem 2rem rgba(88, 88, 88, 88));
 }
 
 @keyframes button1 {
     100% {
-        bottom: 8rem;
+        bottom: 15%;
     }
 }
 
@@ -130,14 +120,16 @@ const isClicked = ref(false);
 
     z-index: 9001;
     position: absolute;
-    right: 1.05rem;
-    bottom: 1.6rem;
+    right: 25%;
+    bottom: 40%;
 
-    width: 0.9rem;
-    height: 0.9rem;
+    width: 50%;
+    height: 50%;
 
     border-radius: 1rem;
 
+    transform-origin: center;
+    transform: scale(0.75);
 
     filter: drop-shadow(0 1rem 2rem black);
     background: linear-gradient(180deg, rgba(255, 255, 255, 255), rgba(136, 136, 136, 0));
