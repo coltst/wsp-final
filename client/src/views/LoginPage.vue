@@ -5,6 +5,10 @@ const sessionStore = useSessionStore();
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import { faArrowRightToBracket } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'vue-router';
+
+
+const router = useRouter();
 
 function login() {
     const text = (document.getElementById("loginbox") as HTMLInputElement).value.toString();
@@ -13,6 +17,7 @@ function login() {
         username: text ? text : "",
         admin: text === "admin" ? true : false // this will be done in the DB later
     });
+    router.push('/');
 }
 </script>
 
@@ -29,12 +34,10 @@ function login() {
                 <div class="w-full h-full flex flex-wrap justify-center items-center text-4xl">
                     <p>Username:</p>
                     <input class="loginbox" type="text" name="loginbox" id="loginbox">
-                    <RouterLink class="toolboxbutton" to="/">
-                        <button class="darkbutton" type="button" @click="login()">
-                            <div class="darkbuttoninner" />
-                            <FontAwesomeIcon :icon="faArrowRightToBracket" inverse />
-                        </button>
-                    </RouterLink>
+                    <button class="darkbutton" type="button" @click="login()">
+                        <div class="darkbuttoninner" />
+                        <FontAwesomeIcon :icon="faArrowRightToBracket" inverse />
+                    </button>
                 </div>
             </div>
         </div>

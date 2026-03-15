@@ -3,9 +3,11 @@ import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useRouter } from 'vue-router';
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
+const router = useRouter();
 
 function post() {
     const title = (document.getElementById("title") as HTMLInputElement).value.toString();
@@ -20,6 +22,7 @@ function post() {
             tags: (document.getElementById("tags") as HTMLInputElement).value.toString().split(" "),
             user: sessionStore.user.username.toString()
         });
+        router.push('/');
     }
 }
 </script>
@@ -36,12 +39,10 @@ function post() {
             <input type="text" class="w-full" name="tags" id="tags" placeholder="Space-separated tags...">
         </div>
         <div class="row-start-1 row-span-1 col-start-12 col-span-1">
-            <RouterLink class="toolboxbutton" to="/">
-                <button class="darkbutton w-full" type="button" @click="post()">
-                    <div class="darkbuttoninner" />
-                    <FontAwesomeIcon :icon="faPaperPlane" inverse />
-                </button>
-            </RouterLink>
+            <button class="darkbutton w-full" type="button" @click="post()">
+                <div class="darkbuttoninner" />
+                <FontAwesomeIcon :icon="faPaperPlane" inverse />
+            </button>
         </div>
     </div>
 </template>
