@@ -5,13 +5,13 @@ import SidebarPost from '@/components/SidebarPost.vue';
 import UserInfo from '@/components/UserInfo.vue';
 
 import { usePostStore } from '@/stores/post';
-import { useUserStore } from '@/stores/user';
+import { useSessionStore } from '@/stores/session';
 
 import type { Post } from '@/types';
 import { ref } from 'vue';
 
 const postStore = usePostStore();
-const userStore = useUserStore();
+const sessionStore = useSessionStore();
 
 const displayedPost = ref<Post>();
 const lookingAtPost = ref<boolean>(false);
@@ -22,7 +22,7 @@ function showPost(post: Post) {
     lookingAtPost.value = true;
 }
 function canComment() {
-    return lookingAtPost.value && userStore.user.logged;
+    return lookingAtPost.value && sessionStore.user.logged;
 }
 </script>
 

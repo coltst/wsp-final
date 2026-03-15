@@ -8,15 +8,15 @@ const props = defineProps<{
 }>()
 
 import { usePostStore } from '@/stores/post';
-import { useUserStore } from '@/stores/user';
+import { useSessionStore } from '@/stores/session';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const postStore = usePostStore();
-const userStore = useUserStore();
+const sessionStore = useSessionStore();
 
 function sendComment() {
     const text = (document.getElementById("input") as HTMLInputElement).value.toString();
-    postStore.addComment(props.post?.id!, userStore.user?.username.toString(), text);
+    postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text);
     (document.getElementById("input") as HTMLInputElement).value = "";
 }
 </script>

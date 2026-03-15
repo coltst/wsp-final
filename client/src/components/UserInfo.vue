@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { useUserStore } from '@/stores/user';
+import { useSessionStore } from '@/stores/session';
 
-const userStore = useUserStore();
+const sessionStore = useSessionStore();
 </script>
 
 <template>
-    <p v-if="userStore.user.logged">welcome, {{ userStore.user.username }} ₊˚⊹♡</p>
-    <p v-if="!userStore.user.logged">will you at least consider logging in?</p>
+    <p v-if="sessionStore.user.logged">welcome, {{ sessionStore.user.username }} ₊˚⊹♡</p>
+    <p v-if="!sessionStore.user.logged">will you at least consider logging in?</p>
 </template>
 
 <style scoped>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import UserInfo from '@/components/UserInfo.vue';
-import { useUserStore } from '@/stores/user';
-const userStore = useUserStore();
+import { useSessionStore } from '@/stores/session';
+const sessionStore = useSessionStore();
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -9,7 +9,7 @@ import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 
 function login() {
     const text = (document.getElementById("loginbox") as HTMLInputElement).value.toString();
-    userStore.setUser({
+    sessionStore.setUser({
         logged: text ? true : false,
         username: text ? text : ""
     });
