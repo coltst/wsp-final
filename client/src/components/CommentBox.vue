@@ -16,8 +16,11 @@ const sessionStore = useSessionStore();
 
 function sendComment() {
     const text = (document.getElementById("input") as HTMLInputElement).value.toString();
-    postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text);
-    (document.getElementById("input") as HTMLInputElement).value = "";
+    // do not post if empty
+    if ((text ? text : "").trim() !== "") {
+        postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text);
+        (document.getElementById("input") as HTMLInputElement).value = "";
+    }
 }
 </script>
 
