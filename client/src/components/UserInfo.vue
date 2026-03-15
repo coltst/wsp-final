@@ -15,7 +15,6 @@ const sessionStore = useSessionStore();
 p {
     text-align: center;
     font-style: italic;
-    color: grey;
     letter-spacing: 5px;
 }
 </style>

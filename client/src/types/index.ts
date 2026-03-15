@@ -1,6 +1,7 @@
 export type User = {
     username: String,
-    logged: boolean
+    logged: boolean,
+    admin: boolean
 }
 
 export type Post = {

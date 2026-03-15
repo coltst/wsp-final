@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faRightFromBracket, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons'
 
-import { faHouse, faUser } from '@fortawesome/free-solid-svg-icons'
+import { useSessionStore } from "@/stores/session.ts"
 
 const isClicked = ref(false);
+const sessionStore = useSessionStore();
+
+function logout() {
+    sessionStore.logout();
+}
 </script>
 
 <template>
@@ -12,11 +18,20 @@ const isClicked = ref(false);
         <div class="toolboxinner">
         </div>
     </div>
-    <RouterLink class="toolboxbutton" v-if="isClicked" to="/login">
-        <FontAwesomeIcon :icon="faUser" inverse />
-        <div class="toolboxbuttoninner">
+    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && !sessionStore.user.logged" to="/login">
+        <FontAwesomeIcon :icon="faRightToBracket" inverse />
+        <div class="toolboxbuttoninner" />
+    </RouterLink>
 
-        </div>
+    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && sessionStore.user.logged" to="/profile">
+        <FontAwesomeIcon :icon="faUser" inverse />
+        <div class="toolboxbuttoninner" />
+    </RouterLink>
+
+    <RouterLink class="toolboxbutton toolboxbutton2" v-if="isClicked && sessionStore.user.logged" to="/"
+        @click="logout()">
+        <FontAwesomeIcon :icon="faRightFromBracket" inverse />
+        <div class="toolboxbuttoninner" />
     </RouterLink>
 </template>
 
@@ -85,13 +100,9 @@ const isClicked = ref(false);
 
     position: absolute;
 
-    right: 4%;
-    bottom: 4%;
-
     width: 4rem;
     height: 4rem;
 
-    animation: button1 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
     background-color: black;
 
     z-index: 9000;
@@ -108,9 +119,31 @@ const isClicked = ref(false);
     filter: drop-shadow(0 1rem 2rem rgba(88, 88, 88, 88));
 }
 
+.toolboxbutton1 {
+
+    right: 4%;
+    bottom: 4%;
+    animation: button1 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
 @keyframes button1 {
     100% {
         bottom: 15%;
+        right: 4%;
+    }
+}
+
+.toolboxbutton2 {
+
+    right: 4%;
+    bottom: 4%;
+    animation: button2 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes button2 {
+    100% {
+        bottom: 11%;
+        right: 8%;
     }
 }
 
