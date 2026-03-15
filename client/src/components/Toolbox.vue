@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faRightFromBracket, faRightToBracket, faToolbox, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faRightFromBracket, faRightToBracket, faToolbox, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { useSessionStore } from "@/stores/session.ts"
 
@@ -33,6 +33,11 @@ function logout() {
     <RouterLink class="toolboxbutton toolboxbutton2" v-if="isClicked && sessionStore.user.logged" to="/"
         @click="logout()">
         <FontAwesomeIcon :icon="faRightFromBracket" inverse />
+        <div class="toolboxbuttoninner" />
+    </RouterLink>
+
+    <RouterLink class="toolboxbutton toolboxbutton3" v-if="isClicked && sessionStore.user.logged" to="/post">
+        <FontAwesomeIcon :icon="faPlus" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>
 </template>
@@ -121,10 +126,15 @@ function logout() {
     filter: drop-shadow(0 1rem 2rem rgba(88, 88, 88, 88));
 }
 
-.toolboxbutton1 {
+.toolboxbutton1,
+.toolboxbutton2,
+.toolboxbutton3 {
 
     right: 4%;
     bottom: 4%;
+}
+
+.toolboxbutton1 {
     animation: button1 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
@@ -135,17 +145,26 @@ function logout() {
     }
 }
 
-.toolboxbutton2 {
 
-    right: 4%;
-    bottom: 4%;
+.toolboxbutton2 {
     animation: button2 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 
 @keyframes button2 {
     100% {
-        bottom: 11%;
-        right: 8%;
+        bottom: 10.8%;
+        right: 7.8%;
+    }
+}
+
+.toolboxbutton3 {
+    animation: button3 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes button3 {
+    100% {
+        bottom: 4%;
+        right: 10%;
     }
 }
 

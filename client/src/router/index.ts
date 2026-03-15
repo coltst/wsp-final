@@ -1,5 +1,6 @@
 import HomePage from '@/views/HomePage.vue'
 import LoginPage from '@/views/LoginPage.vue'
+import PostPage from '@/views/PostPage.vue'
 import ProfilePage from '@/views/ProfilePage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/profile',
       name: 'profile',
       component: ProfilePage
+    },
+    {
+      path: '/post',
+      name: 'post',
+      component: PostPage
     }
   ],
 })
