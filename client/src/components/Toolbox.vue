@@ -134,7 +134,6 @@ const isClicked = ref(false);
     filter: drop-shadow(0 1rem 2rem black);
     background: linear-gradient(180deg, rgba(255, 255, 255, 255), rgba(136, 136, 136, 0));
 
-
     transition: all 0.4s ease-in-out;
 }
 </style>

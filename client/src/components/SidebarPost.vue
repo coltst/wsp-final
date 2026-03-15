@@ -6,7 +6,6 @@ import type { Post } from '@/types';
 const props = defineProps<{
     post?: Post
 }>()
-
 </script>
 
 <template>

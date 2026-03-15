@@ -17,10 +17,8 @@ const props = defineProps<{
         <div class="body">{{ post?.body }}</div>
     </div>
     <div class="post" v-for="comment in post?.comments">
-
         <div class="postinner"></div>
         <div class="author">{{ comment?.user }}</div>
-
         <div class="body">{{ comment?.body }}</div>
     </div>
 </template>
