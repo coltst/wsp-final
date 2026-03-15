@@ -27,7 +27,7 @@ function sendComment() {
 <template>
     <div class="h-full w-full commentcontainer">
         <div class="h-full w-full p-4">
-            <textarea class="h-full w-[90%] input" id="input" />
+            <textarea class="h-full w-[90%] commentinput" id="input" />
             <button class="h-full w-[8%] sendbutton" @click="sendComment">
                 <FontAwesomeIcon :icon="faPaperPlane" />
             </button>
