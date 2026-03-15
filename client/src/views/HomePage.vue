@@ -32,7 +32,7 @@ function canComment() {
 <template>
     <div class="h-full w-full py-7 px-20">
         <div class="h-full w-full grid grid-cols-4 grid-rows-12 gap-4">
-            <div class="col-start-1 row-start-1 col-span-4 row-span-1 topbar">
+            <div class="col-start-1 row-start-1 col-span-4 row-span-1 topbar min-h-10">
                 <UserInfo />
             </div>
             <div class="col-start-1 row-start-2 col-span-1 row-span-11 p-4 secondarypanel overflow-y-scroll">

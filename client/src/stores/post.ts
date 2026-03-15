@@ -30,6 +30,9 @@ export const usePostStore = defineStore('post', () => {
       }
     }
   }
+  function deletePost(post_id: number) {
+    posts.value = posts.value.filter((post) => post.id !== post_id);
+  }
 
-  return { posts, addPost, addComment }
+  return { posts, addPost, deletePost, addComment }
 })
