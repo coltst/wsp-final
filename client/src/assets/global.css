@@ -39,6 +39,10 @@ body {
     margin-bottom: 0.5rem;
 }
 
+.hover:hover {
+    filter: drop-shadow(0 0.2rem 1rem rgba(20,20,20,1));
+}
+
 .postinner {
     position: relative;
 

@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="post">
+    <div class="post hover">
         <div class="postinner"></div>
         <div class="author">{{ post?.user }}</div>
         <div class="title m-4">{{ post?.title }}</div>
