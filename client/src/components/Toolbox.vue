@@ -21,6 +21,14 @@ const isClicked = ref(false);
 </template>
 
 <style scoped>
+.toolboxouter,
+.toolboxinner,
+.toolboxbutton,
+.toolboxbuttoninner {
+    border-radius: 50%;
+    transform-origin: center;
+}
+
 .toolboxouter {
     z-index: 9001;
     position: absolute;
@@ -30,20 +38,18 @@ const isClicked = ref(false);
     width: 4rem;
     height: 4rem;
 
-    border-radius: 50%;
     border: 1px solid black;
     filter: drop-shadow(0 0.3rem 0.3rem black);
     --l: #6a5371;
     --r: #84418d;
     background: linear-gradient(180deg, var(--l), var(--r));
 
-    transition: all 0.5s ease-in-out, --l 0.5s ease, --r 0.5s ease;
+    transition: all 0.5s ease-in-out;
 }
 
 .toolboxouter:hover {
 
     transform: scale(1.5);
-    transform-origin: center;
 
     --l: #b070c4;
     --r: #c965d6;
@@ -61,8 +67,6 @@ const isClicked = ref(false);
     width: 2rem;
     height: 2rem;
 
-    border-radius: 50%;
-
     filter: drop-shadow(0 1rem 2rem black);
     background: linear-gradient(180deg, rgba(255, 255, 255, 255), rgba(136, 136, 136, 0));
 
@@ -72,7 +76,6 @@ const isClicked = ref(false);
 
 .toolboxouter:hover>.toolboxinner {
     transform: scale(1.3);
-    transform-origin: center;
 }
 
 .toolboxbutton {
@@ -89,8 +92,6 @@ const isClicked = ref(false);
     height: 4rem;
 
     animation: button1 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-
-    border-radius: 50%;
     background-color: black;
 
     z-index: 9000;
@@ -100,8 +101,6 @@ const isClicked = ref(false);
     transition: filter 0.4s linear;
 
     filter: drop-shadow(0 0rem 0rem rgba(0, 0, 0, 0));
-
-    transform-origin: center;
     transform: scale(0.75);
 }
 
@@ -125,10 +124,6 @@ const isClicked = ref(false);
 
     width: 50%;
     height: 50%;
-
-    border-radius: 1rem;
-
-    transform-origin: center;
     transform: scale(0.75);
 
     filter: drop-shadow(0 1rem 2rem black);

@@ -29,4 +29,8 @@ const props = defineProps<{
     font-size: 80%;
     color: rgb(200, 200, 200);
 }
+
+.post {
+    cursor: unset;
+}
 </style>
