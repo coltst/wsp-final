@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
 import type { Post } from '@/types';
 
 const props = defineProps<{
     post?: Post
 }>()
-
 </script>
 
 <template>
     <div class="post">
         <div class="postinner"></div>
         <div class="author">{{ post?.user }}</div>
-
         <div class="title">{{ post?.title }}</div>
+        <div class="body">{{ post?.body }}</div>
+    </div>
+    <div class="post" v-for="comment in post?.comments">
+
+        <div class="postinner"></div>
+        <div class="author">{{ comment?.user }}</div>
+
+        <div class="body">{{ comment?.body }}</div>
     </div>
 </template>
 
@@ -43,12 +50,6 @@ const props = defineProps<{
     margin-bottom: 0.5rem;
 }
 
-.post:hover {
-    border-radius: 2rem / 2rem;
-
-    color: rgb(255, 255, 255);
-}
-
 .postinner {
     position: relative;
 
@@ -62,5 +63,11 @@ const props = defineProps<{
 
 .title {
     margin: 1rem;
+}
+
+.body {
+    margin: 1rem;
+    font-size: 80%;
+    color: rgb(200, 200, 200);
 }
 </style>

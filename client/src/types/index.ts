@@ -10,5 +10,17 @@ export type Post = {
     tags: string[],
     reactions: Object,
     views: number,
-    userId: number
+    user: string,
+    comments: {
+        id: number,
+        body: string,
+        user: string
+    }[]
+}
+
+export type NewPost = {
+    title: string,
+    body: string,
+    tags: string[],
+    user: string
 }
