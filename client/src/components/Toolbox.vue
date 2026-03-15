@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faRightFromBracket, faRightToBracket, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket, faRightToBracket, faToolbox, faUser } from '@fortawesome/free-solid-svg-icons'
 
 import { useSessionStore } from "@/stores/session.ts"
 
@@ -14,9 +14,11 @@ function logout() {
 </script>
 
 <template>
-    <div class="toolboxouter" @click="isClicked = !isClicked" :class="{ 'toolboxclicked': isClicked }">
+    <div class="toolboxouter flex text-center items-center justify-center" @click="isClicked = !isClicked"
+        :class="{ 'toolboxclicked': isClicked }">
         <div class="toolboxinner">
         </div>
+        <FontAwesomeIcon :icon="faToolbox" inverse />
     </div>
     <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && !sessionStore.user.logged" to="/login">
         <FontAwesomeIcon :icon="faRightToBracket" inverse />
