@@ -37,7 +37,7 @@ function sendComment() {
 
 <style scoped>
 .commentcontainer,
-.input,
+.commentinput,
 .sendbutton {
     border: 1px solid grey;
     color: rgb(180, 180, 180);
@@ -46,12 +46,6 @@ function sendComment() {
 
 .commentcontainer {
     background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 0.5));
-}
-
-.input {
-    background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 1));
-    float: left;
-    resize: none;
 }
 
 .sendbutton {

@@ -152,3 +152,14 @@ body {
     color: #dddddd;
     text-align: center;
 }
+
+.commentinput {
+    /*background: linear-gradient(0deg, rgba(82, 82, 82, 1), rgba(136, 136, 136, 1));*/
+    background: rgba(82, 82, 82, 1);
+    float: left;
+    resize: none;
+    
+    border: 1px solid grey;
+    color: rgb(150, 150, 150);
+    border-radius: 1rem / 1rem;
+}
