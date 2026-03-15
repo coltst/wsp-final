@@ -8,7 +8,10 @@ export type Post = {
     title: string,
     body: string,
     tags: string[],
-    reactions: Object,
+    reactions: {
+        likes: number,
+        dislikes: number
+    },
     views: number,
     user: string,
     comments: {
