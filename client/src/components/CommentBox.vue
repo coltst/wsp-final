@@ -14,12 +14,13 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
 
+const text = ref("");
+
 function sendComment() {
-    const text = (document.getElementById("input") as HTMLInputElement).value.toString();
     // do not post if empty
-    if ((text ? text : "").trim() !== "") {
-        postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text);
-        (document.getElementById("input") as HTMLInputElement).value = "";
+    if ((text.value ? text.value : "").trim() !== "") {
+        postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text.value);
+        text.value = "";
     }
 }
 </script>
@@ -27,7 +28,7 @@ function sendComment() {
 <template>
     <div class="h-full w-full commentcontainer">
         <div class="h-full w-full p-4">
-            <textarea class="h-full w-[90%] commentinput" id="input" />
+            <textarea class="h-full w-[90%] commentinput" id="input" v-model="text" />
             <button class="h-full w-[8%] sendbutton" @click="sendComment">
                 <FontAwesomeIcon :icon="faPaperPlane" />
             </button>
