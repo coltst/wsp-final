@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS Users (
+    userID       INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    userName     VARCHAR(25)    NOT NULL,
+    creationDate DATE           NOT NULL,
+    BIO          TEXT           NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Post (
+    postID   INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    creationDate DATE NOT NULL,
+    content  TEXT     NOT NULL,
+    userID INTEGER    NOT NULL,
+    CONSTRAINT userPostFK FOREIGN KEY (userID) REFERENCES Users (userID)
+);
+
+CREATE TABLE IF NOT EXISTS Reaction (
+    content VARCHAR(4) NOT NULL,
+    postID  INTEGER    NOT NULL,
+    userID  INTEGER    NOT NULL,
+    CONSTRAINT userReactionFK FOREIGN KEY (userID) REFERENCES Users (userID),
+    CONSTRAINT postReactionFK FOREIGN KEY (postID) REFERENCES Post (PostID),
+    CONSTRAINT reactionPK PRIMARY KEY (content, postID, userID)
+);
+
+CREATE TABLE IF NOT EXISTS Reply (
+    replyID INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    postID INTEGER NOT NULL,
+    userID INTEGER NOT NULL,
+    content TEXT NOT NULL,
+    CONSTRAINT userReplyFK FOREIGN KEY (userID) REFERENCES Users (userID),
+    CONSTRAINT postReplyFK FOREIGN KEY (postID) REFERENCES Post (PostID)
+);
