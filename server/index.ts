@@ -2,6 +2,8 @@ import express from "express";
 import { config } from "dotenv";
 config();
 
+import usersController from "./controllers/users"
+
 const PORT = process.env.PORT ?? 3000;
 const HOSTNAME = process.env.BIND ?? "localhost";
 const STATIC_DIR = process.env.SERVE ?? "../client/dist";
@@ -15,7 +17,8 @@ app.use((_req, res, next) => {
     next();
 });
 app.use(express.json());
-app.use(express.static(STATIC_DIR));
+app.use(express.static(STATIC_DIR))
+    .use("/api/v1/users", usersController);
 
 app.get("/api/v1/test", (req, res) => {
     res.send("It works!");
