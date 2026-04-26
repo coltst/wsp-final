@@ -36,3 +36,9 @@ export type Reply = {
     userID?: number
     content: string
 }
+
+export type Reaction = {
+    content: string
+    postID: number
+    userID: number
+}
