@@ -9,10 +9,10 @@ const STATIC_DIR = process.env.SERVE ?? "../client/dist";
 const app = express();
 
 app.use((_req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE")
-    res.setHeader("Access-Control-Allow-Headers", "*")
-    next()
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Headers", "*");
+    next();
 });
 app.use(express.json());
 app.use(express.static(STATIC_DIR));
