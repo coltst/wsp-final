@@ -1,9 +1,22 @@
-import { User } from "../types";
+import { PagingRequest, User } from "../types";
 import { connect } from "./supabase";
 
-async function getAll() {
+async function getAll(params: PagingRequest) {
     const db = connect();
-    let query = db.from("users").select("*", {})
+    let query = db.from("users").select("*", {count: "estimated"});
+
+    if (params?.search) {
+        query = query.or(
+            `username.ilike.%${params.search}%`,
+        )
+    }
+    if (params?.sortBy) {
+        query = query.order(params.sortBy, { ascending: !params.descending })
+    }
+    const page = params?.page || 1
+    const pageSize = params?.pageSize || 10
+    const start = (page - 1) * pageSize
+    query = query.range(start, start + pageSize - 1)
 
     const result = await query;
     if (result.error) {

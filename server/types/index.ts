@@ -8,6 +8,14 @@ export type DataListEnvelope<T> = DataEnvelope<T[]> & {
     total: number
 }
 
+export type PagingRequest = {
+    page?: number
+    pageSize?: number
+    search?: string
+    sortBy?: string
+    descending?: boolean
+}
+
 export type User = {
     userID: number
     userName: string

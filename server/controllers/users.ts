@@ -5,7 +5,7 @@ import { DataEnvelope, DataListEnvelope, User } from "../types";
 const app = Router();
 
 app.get("/", async (req, res) => {
-   const {result, count} = await getAll();
+   const {result, count} = await getAll(req.query);
    const sanitizedUsers = result.map((x) => ({
     ...x
     // TODO: add password hash when it is added
