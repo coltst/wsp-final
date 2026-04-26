@@ -24,8 +24,8 @@ export type User = {
 }
 
 export type Post = {
-    postID: number
+    postID?: number
     creationDate: Date
     content: string
-    userID: number
+    userID?: number
 }
