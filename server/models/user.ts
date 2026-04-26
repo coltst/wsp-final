@@ -38,4 +38,32 @@ async function create(user: User) {
     return result.data as User;
 }
 
-export { getAll, getById, create };
+async function update(id: number, user: Partial<User>) {
+    const db = connect();
+    const result = await db
+        .from("users")
+        .update(user)
+        .eq("userid", id)
+        .select()
+        .single();
+    if (result.error) {
+        throw result.error;
+    }
+    return result.data as User;
+}
+
+async function remove(id: number): Promise<User> {
+    const db = connect();
+    const result = await db
+        .from("users")
+        .delete()
+        .eq("userid", id)
+        .select()
+        .single()
+    if (result.error) {
+        throw result.error;
+    }
+    return result.data as User;
+}
+
+export { getAll, getById, create, update, remove };

@@ -33,6 +33,23 @@ app.get("/", async (req, res) => {
         }
         res.send(response);
     })
+    .patch("/:id", async (req, res) => {
+        const { id } = req.params;
+        const updatedUser = await update(Number(id), req.body)
+        const response: DataEnvelope<User> = {
+            data: updatedUser as User,
+            success: true,
+        }
+        res.send(response)
+    })
+    .delete("/:id", async (req, res) => {
+        const { id } = req.params;
+        const removedUser = await remove(Number(id));
+        const response: DataEnvelope<User> = {
+            data: removedUser,
+            success: true,
+        }
+        res.send(response);
     });
 
 export default app;
