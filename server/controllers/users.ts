@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, getById, create, update, remove } from "../models/user";
+import { getAll, getById, create, update, remove } from "../models/users";
 import { DataEnvelope, DataListEnvelope, User } from "../types";
 
 const app = Router();
