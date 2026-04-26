@@ -1,3 +1,13 @@
+export type DataEnvelope<T> = {
+    data: T
+    success: boolean
+    message?: string
+}
+
+export type DataListEnvelope<T> = DataEnvelope<T[]> & {
+    total: number
+}
+
 export type User = {
     userID: number
     userName: string

@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getAll, getById, create } from "../models/user";
-import { User } from "../types";
+import { getAll, getById, create, update, remove } from "../models/user";
+import { DataEnvelope, DataListEnvelope, User } from "../types";
 
 const app = Router();
 
@@ -9,16 +9,30 @@ app.get("/", async (req, res) => {
    const sanitizedUsers = result.map((x) => ({
     ...x
     // TODO: add password hash when it is added
-   }))
-   res.send(sanitizedUsers);
+   }));
+   const response: DataListEnvelope<User> = {
+    data: sanitizedUsers,
+    success: true,
+    total: count
+   };
+   res.send(response);
 })
     .get("/:id", async (req, res) => {
         const { id } = req.params;
-        res.send(await getById(Number(id)));
+        const response: DataEnvelope<User> = {
+            data: await getById(Number(id)),
+            success: true
+        };
+        res.send(response);
     })
     .post("/new", async (req, res) => {
         const newUser = await create(req.body);
-        res.send(newUser);
+        const response: DataEnvelope<User> = {
+            data: newUser,
+            success: true
+        }
+        res.send(response);
+    })
     });
 
 export default app;
