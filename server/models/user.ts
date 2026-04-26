@@ -21,4 +21,21 @@ async function getById(id: number) {
     return result.data;
 }
 
-export { getAll, getById };
+async function create(user: User) {
+    const db = connect();
+    const result = await db
+        .from("users")
+        .insert({
+            "username": user.userName,
+            "bio": user.BIO,
+            "creationdate": (new Date()).toISOString()
+        })
+        .select()
+        .single();
+    if (result.error) {
+        throw result.error;
+    }
+    return result.data as User;
+}
+
+export { getAll, getById, create };
