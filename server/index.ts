@@ -4,6 +4,7 @@ config();
 
 import usersController from "./controllers/users"
 import postController from "./controllers/post"
+import replyController from "./controllers/reply"
 
 const PORT = process.env.PORT ?? 3000;
 const HOSTNAME = process.env.BIND ?? "localhost";
@@ -20,7 +21,8 @@ app.use((_req, res, next) => {
 app.use(express.json());
 app.use(express.static(STATIC_DIR))
     .use("/api/v1/users", usersController)
-    .use("/api/v1/post", postController);
+    .use("/api/v1/post", postController)
+    .use("/api/v1/reply", replyController);
 
 app.get("/api/v1/test", (req, res) => {
     res.send("It works!");

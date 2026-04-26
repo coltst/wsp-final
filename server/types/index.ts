@@ -29,3 +29,10 @@ export type Post = {
     content: string
     userID?: number
 }
+
+export type Reply = {
+    replyID?: number
+    postID?: number
+    userID?: number
+    content: string
+}
