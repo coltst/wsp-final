@@ -47,23 +47,6 @@ async function create(reply: Reaction, authorID: number) {
     return result.data as Reaction;
 }
 
-// since it's a composite primary key we just use that instead of a "reactionID"
-async function update(reply: Reaction) {
-    const db = connect();
-    const result = await db
-        .from("reaction")
-        .update(reply)
-        .eq("postid", reply.postID)
-        .eq("userid", reply.userID)
-        .eq("content", reply.content)
-        .select()
-        .single();
-    if (result.error) {
-        throw result.error;
-    }
-    return result.data as Reaction;
-}
-
 async function remove(reply: Reaction) {
     const db = connect();
     const result = await db
@@ -80,4 +63,4 @@ async function remove(reply: Reaction) {
     return result.data as Reaction;
 }
 
-export { getAll, getByPostID, create, update, remove };
+export { getAll, getByPostID, create, remove };

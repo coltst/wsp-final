@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getAll, getByPostID, create, update, remove } from "../models/reaction";
-import { DataEnvelope, DataListEnvelope, Post, Reaction } from "../types";
+import { getAll, getByPostID, create, remove } from "../models/reaction";
+import { DataEnvelope, DataListEnvelope, Reaction } from "../types";
 
 const app = Router();
 
