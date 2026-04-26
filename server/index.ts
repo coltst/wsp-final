@@ -26,7 +26,7 @@ app.get("/api/v1/test", (req, res) => {
 
 app.use( (err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.log(err);
-    res.status(500).send("Error")
+    res.status((err as any).status ?? 500).send(err.message ?? "Error")
 })
 
 app.listen(PORT, () => {
