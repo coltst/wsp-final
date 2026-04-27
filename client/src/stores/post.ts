@@ -8,7 +8,7 @@ import type { Reply, DataEnvelope, DataListEnvelope, Post } from "../../../serve
 export const usePostStore = defineStore('post', () => {
   const session = useSessionStore();
   const posts = ref<Post[]>([]);
-  const id = ref(1);
+  const id = ref(2);
 
   // The store functions as the controller
   async function loadPosts() {
@@ -58,7 +58,6 @@ export const usePostStore = defineStore('post', () => {
       "postid": post_id,
       "content": body
     });
-    posts.value.push(data.data);
     return data;
   }
   
