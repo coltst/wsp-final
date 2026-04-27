@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useSessionStore } from './session'
 //import type { NewPost, Post } from '@/types'
 //import dataPosts from '../data/posts.json'
-import type { Reply, DataEnvelope, DataListEnvelope, Post } from "../../../server/types";
+import type { Reply, DataEnvelope, DataListEnvelope, Post, Reaction } from "../../../server/types";
 
 export const usePostStore = defineStore('post', () => {
   const session = useSessionStore();
@@ -60,6 +60,19 @@ export const usePostStore = defineStore('post', () => {
     });
     return data;
   }
+
+  async function getReactions(post_id: number) {
+    const data = await session.api<DataListEnvelope<Reaction>>(`/reaction/post/${post_id}`);
+    return data.data;
+  }
   
-  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments }
+  async function addReaction(post_id: number, content: string) {
+    const data = await session.api<DataEnvelope<Post>>(`/reaction/post/new?author=${id.value}`, {
+      "postid": post_id,
+      "content": content
+    });
+    return data;
+  }
+
+  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments, getReactions, addReaction }
 })
