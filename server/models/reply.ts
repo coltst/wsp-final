@@ -31,7 +31,7 @@ async function getAll(params: PagingRequest) {
 
 async function getAllForPost(params: PagingRequest, postID: number) {
     const db = connect();
-    let query = db.from("reply").select("*", {count: "estimated"});
+    let query = db.from("reply").select("*, userreplyfk (username)", {count: "estimated"});
 
     // Search will search by content
     // TODO: maybe custom reply search paging request?? this function is useful for debugging
@@ -53,7 +53,11 @@ async function getAllForPost(params: PagingRequest, postID: number) {
     if (result.error) {
         throw result.error;
     }
-    return { result: result.data as Reply[], count: result.count || 0};
+    return { result: result.data.map((datum) => {
+        datum['username'] = datum['userreplyfk']['username'];
+        delete datum['userreplyfk'];
+        return datum;
+    }) as Reply[], count: result.count || 0};
 }
 
 async function getById(id: number) {

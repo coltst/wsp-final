@@ -15,7 +15,7 @@ const postStore = usePostStore();
 const sessionStore = useSessionStore();
 
 const comments = ref<Reply[]>([]);
-postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result; console.log(comments.value);})
+postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;})
 
 function deletePost() {
     if (sessionStore.user.admin) {
@@ -37,7 +37,7 @@ function deletePost() {
     </div>
     <div class="post" :key="comment.replyid" v-for="comment in comments">
         <div class="postinner"></div>
-        <div class="author">{{ comment?.userid }}</div>
+        <div class="author">{{ comment?.username }}</div>
         <div class="body">{{ comment?.content }}</div>
     </div>
 </template>

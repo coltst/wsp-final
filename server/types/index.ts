@@ -37,6 +37,7 @@ export type Reply = {
     postid?: number
     userid?: number
     content: string
+    username?: string
 }
 
 export type Reaction = {
