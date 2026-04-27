@@ -1,10 +1,7 @@
 <script setup lang="ts">
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useSessionStore } from '@/stores/session';
 import UserInfo from '@/components/UserInfo.vue';
-import type { Post } from '@/types';
 import { usePostStore } from '@/stores/post';
 const sessionStore = useSessionStore();
 
