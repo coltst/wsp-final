@@ -22,6 +22,7 @@ function loadReactions() {
 }
 loadReactions();
 function addReaction(content: string) {
+    // TODO: remove reaction if we already did it
     postStore.addReaction(props.post?.postid ?? -1, content).then(() => {
         loadReactions();
     });
