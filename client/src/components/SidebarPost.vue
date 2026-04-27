@@ -11,7 +11,7 @@ const props = defineProps<{
 <template>
     <div class="post hover">
         <div class="postinner"></div>
-        <div class="author">{{ post?.userID }}</div>
+        <div class="author">{{ post?.username }}</div>
         <div class="title m-4">{{ post?.title }}</div>
     </div>
 </template>

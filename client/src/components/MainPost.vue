@@ -16,7 +16,7 @@ const sessionStore = useSessionStore();
 
 function deletePost() {
     if (sessionStore.user.admin) {
-        postStore.deletePost(props.post?.id!);
+        postStore.deletePost(Number(props.post?.postID));
     }
 }
 </script>
@@ -25,7 +25,7 @@ function deletePost() {
     <div class="post">
         <div class="postinner"></div>
         <div class="author">
-            {{ post?.userID }}
+            {{ post?.username }}
             <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user.admin }"
                 @click="deletePost()" v-if="sessionStore.user.admin" />
         </div>

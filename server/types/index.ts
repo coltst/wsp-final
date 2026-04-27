@@ -29,6 +29,7 @@ export type Post = {
     content: string
     title: string
     userID?: number
+    username?: string // returned by the server using a join
 }
 
 export type Reply = {
