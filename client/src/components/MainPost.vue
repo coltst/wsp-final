@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Post } from '../../../server/types';
+import type { Reply, Post } from '../../../server/types';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
@@ -13,6 +13,9 @@ const props = defineProps<{
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
+console.log(props.post);
+const comments = ref<Reply[]>([]);
+postStore.getComments(props.post?.postID ?? -1).then((result) => {comments.value = result;})
 
 function deletePost() {
     if (sessionStore.user.admin) {
@@ -32,10 +35,10 @@ function deletePost() {
         <div class="title m-4">{{ post?.title }}</div>
         <div class="body">{{ post?.content }}</div>
     </div>
-    <div class="post" v-for="comment in post?.comments">
+    <div class="post" :key="comment.replyID" v-for="comment in comments">
         <div class="postinner"></div>
-        <div class="author">{{ comment?.user }}</div>
-        <div class="body">{{ comment?.body }}</div>
+        <div class="author">{{ comment?.userID }}</div>
+        <div class="body">{{ comment?.content }}</div>
     </div>
 </template>
 

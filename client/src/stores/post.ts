@@ -3,11 +3,12 @@ import { defineStore } from 'pinia'
 import { useSessionStore } from './session'
 //import type { NewPost, Post } from '@/types'
 //import dataPosts from '../data/posts.json'
-import type { DataEnvelope, DataListEnvelope, Post } from "../../../server/types";
+import { Reply, type DataEnvelope, type DataListEnvelope, type Post } from "../../../server/types";
 
 export const usePostStore = defineStore('post', () => {
   const session = useSessionStore();
   const posts = ref<Post[]>([]);
+  const id = ref(1);
 
   // The store functions as the controller
   async function loadPosts() {
@@ -47,17 +48,19 @@ export const usePostStore = defineStore('post', () => {
     return data
   }
 
-  function addComment(post_id: number, _author: string, _body: string) {
-    for (const post of posts.value) {
-      if (post.postID === post_id) {
-        /*post.comments.push({
-          id: -1, // will be determined by DB later
-          body: body,
-          user: author
-        });*/
-      }
-    }
+  async function getComments(post_id: number) {
+    const data = await session.api<DataListEnvelope<Reply>>(`/reply/post/${post_id}`);
+    return data.data;
+  }
+
+  async function addComment(post_id: number, body: string) {
+    const data = await session.api<DataEnvelope<Post>>(`/reply/new?author=${id.value}`, {
+      "postID": post_id,
+      "content": body
+    });
+    posts.value.push(data.data);
+    return data;
   }
   
-  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment }
+  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments }
 })
