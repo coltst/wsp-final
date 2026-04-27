@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Post } from '@/types';
+import type { Post } from '../../../server/types';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
@@ -25,12 +25,12 @@ function deletePost() {
     <div class="post">
         <div class="postinner"></div>
         <div class="author">
-            {{ post?.user }}
+            {{ post?.userID }}
             <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user.admin }"
                 @click="deletePost()" v-if="sessionStore.user.admin" />
         </div>
         <div class="title m-4">{{ post?.title }}</div>
-        <div class="body">{{ post?.body }}</div>
+        <div class="body">{{ post?.content }}</div>
     </div>
     <div class="post" v-for="comment in post?.comments">
         <div class="postinner"></div>

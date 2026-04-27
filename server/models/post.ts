@@ -42,7 +42,8 @@ async function create(post: Post, authorID: number) {
         .insert({
             "userid": authorID,
             "content": post.content,
-            "creationdate": (new Date()).toISOString()
+            "creationdate": (new Date()).toISOString(),
+            "title": post.title
         })
         .select()
         .single();

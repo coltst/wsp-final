@@ -15,6 +15,7 @@ import { ref } from 'vue';
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
+postStore.loadPosts();
 
 const displayedPost = ref<Post>();
 const lookingAtPost = ref<boolean>(false);

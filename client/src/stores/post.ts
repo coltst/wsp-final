@@ -58,6 +58,6 @@ export const usePostStore = defineStore('post', () => {
       }
     }
   }
-
+  
   return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment }
 })
