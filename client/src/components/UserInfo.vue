@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { useSessionStore } from '@/stores/session';
 
 const sessionStore = useSessionStore();

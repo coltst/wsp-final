@@ -80,10 +80,13 @@ async function create(reply: Reply, authorID: number) {
             "creationdate": (new Date()).toISOString()
         })
         .select()
+        .select("*, userreplyfk (username)")
         .single();
     if (result.error) {
         throw result.error;
     }
+    result.data['username'] = result.data['userreplyfk']['username'];
+    delete result.data['username']['userreplyfk'];
     return result.data as Reply;
 }
 

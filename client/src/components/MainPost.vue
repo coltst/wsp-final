@@ -8,7 +8,8 @@ import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
 const props = defineProps<{
-    post?: Post
+    post?: Post,
+    newComments: Reply[]
 }>()
 
 const postStore = usePostStore();
@@ -78,7 +79,7 @@ function groupReactions(array: Reaction[]) {
         </div>
         <div class="body">{{ post?.content }}</div>
     </div>
-    <div class="post" :key="comment.replyid" v-for="comment in comments">
+    <div class="post" :key="comment.replyid" v-for="comment in comments.concat(props.newComments)">
         <div class="postinner"></div>
         <div class="author">{{ comment?.username }}</div>
         <div class="body">{{ comment?.content }}</div>

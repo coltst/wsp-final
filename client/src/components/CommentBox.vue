@@ -14,10 +14,14 @@ const postStore = usePostStore();
 
 const text = ref("");
 
+const emit = defineEmits(["newComment"]);
+
 function sendComment() {
     // do not post if empty
     if ((text.value ? text.value : "").trim() !== "") {
-        postStore.addComment(props.post?.postid ?? -1, text.value);
+        postStore.addComment(props.post?.postid ?? -1, text.value).then((comment) => {
+            emit("newComment", comment.data);
+        });
         text.value = "";
     }
 }

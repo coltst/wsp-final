@@ -10,7 +10,7 @@ import { faToolbox } from '@fortawesome/free-solid-svg-icons'
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
-import type { Post } from '../../../server/types';
+import { Reply, type Post } from '../../../server/types';
 import { ref } from 'vue';
 
 const postStore = usePostStore();
@@ -21,13 +21,17 @@ const displayedPost = ref<Post>();
 const lookingAtPost = ref<boolean>(false);
 
 
+const newComments = ref<Reply[]>([]);
+
 function showPost(post: Post) {
     displayedPost.value = post;
     lookingAtPost.value = true;
+    newComments.value = [];
 }
 function canComment() {
     return lookingAtPost.value && sessionStore.user.logged;
 }
+
 </script>
 
 <template>
@@ -41,7 +45,7 @@ function canComment() {
             </div>
             <div class="col-start-2 row-start-2 col-span-3 p-4 mainpanel overflow-y-scroll"
                 :class="{ 'row-span-9': canComment(), 'row-span-11': !canComment() }">
-                <MainPost v-if="displayedPost ? true : false" :post="displayedPost" />
+                <MainPost v-if="displayedPost ? true : false" :post="displayedPost" :new-comments="newComments" />
                 <div class="infopanel w-full h-full flex items-center justify-center flex-col"
                     v-if="displayedPost ? false : true">
                     <p>Welcome to the forum!</p>
@@ -56,7 +60,7 @@ function canComment() {
             </div>
             <!--overlay the comment box-->
             <div v-if="canComment()" class="col-start-2 row-start-11 col-span-3 row-span-2 z-90">
-                <CommentBox :post="displayedPost" />
+                <CommentBox :post="displayedPost" @new-comment="(comment) => {newComments.push(comment)}" />
             </div>
         </div>
     </div>
