@@ -21,7 +21,7 @@ function post() {
     ) {
         postStore.addPost({
             title: title.value,
-            body: body.value,
+            content: body.value,
             tags: tags.value.split(" "),
             user: sessionStore.user.username.toString()
         });
