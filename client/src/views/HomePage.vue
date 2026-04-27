@@ -36,7 +36,7 @@ function canComment() {
                 <UserInfo />
             </div>
             <div class="col-start-1 row-start-2 col-span-1 row-span-11 p-4 secondarypanel overflow-y-scroll">
-                <SidebarPost v-for="value in postStore.posts" :post="value" @click="showPost(value)" />
+                <SidebarPost v-for="value in postStore.posts" v-bind:key="value.postID" :post="value" @click="showPost(value)" />
             </div>
             <div class="col-start-2 row-start-2 col-span-3 p-4 mainpanel overflow-y-scroll"
                 :class="{ 'row-span-9': canComment(), 'row-span-11': !canComment() }">
