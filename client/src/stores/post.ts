@@ -20,8 +20,8 @@ export const usePostStore = defineStore('post', () => {
     return session.api<DataEnvelope<Post>>(`/post/${id}`);
   }
 
-  async function addPost(post: Omit<Post, "postid">) {
-    const data = await session.api<DataEnvelope<Post>>('/post/new', post);
+  async function addPost(post: Partial<Post>) {
+    const data = await session.api<DataEnvelope<Post>>(`/post/new?author=${id.value}`, post);
     posts.value.push(data.data);
     return data;
   }
