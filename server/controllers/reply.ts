@@ -24,7 +24,12 @@ app.get("/", async (req, res) => {
     .get("/post/:id", async (req, res) => {
         const { id } = req.params;
         const list = await getAllForPost(req.body, Number(id));
-        res.send({...list, success: true});
+        const response: DataListEnvelope<Reply> = {
+            data: list.result,
+            success: true,
+            total: list.result.length
+        };
+        res.send(response);
     })
     .post("/new", async (req, res) => {
         // TODO: remove this when we do JWT

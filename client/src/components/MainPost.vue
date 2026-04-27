@@ -13,13 +13,13 @@ const props = defineProps<{
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
-console.log(props.post);
+
 const comments = ref<Reply[]>([]);
-postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;})
+postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result; console.log(comments.value);})
 
 function deletePost() {
     if (sessionStore.user.admin) {
-        postStore.deletePost(Number(props.post?.postID));
+        postStore.deletePost(Number(props.post?.postid));
     }
 }
 </script>
@@ -35,9 +35,9 @@ function deletePost() {
         <div class="title m-4">{{ post?.title }}</div>
         <div class="body">{{ post?.content }}</div>
     </div>
-    <div class="post" :key="comment.replyID" v-for="comment in comments">
+    <div class="post" :key="comment.replyid" v-for="comment in comments">
         <div class="postinner"></div>
-        <div class="author">{{ comment?.userID }}</div>
+        <div class="author">{{ comment?.userid }}</div>
         <div class="body">{{ comment?.content }}</div>
     </div>
 </template>
