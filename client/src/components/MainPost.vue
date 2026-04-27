@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type { Reply, Post, Reaction } from '../../../server/types';
@@ -15,7 +15,12 @@ const postStore = usePostStore();
 const sessionStore = useSessionStore();
 
 const comments = ref<Reply[]>([]);
-postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;});
+function getComments() {
+    postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;});
+}
+getComments();
+
+
 const reactions = ref<Reaction[]>([]);
 function loadReactions() {
     postStore.getReactions(props.post?.postid ?? -1).then((result) => {reactions.value = result;});
@@ -27,6 +32,16 @@ function addReaction(content: string) {
         loadReactions();
     });
 }
+
+watch(
+  () => props.post,
+  () => {
+    comments.value = [];
+    reactions.value = [];
+    getComments();
+    loadReactions();
+  }
+)
 
 function deletePost() {
     if (sessionStore.user.admin) {

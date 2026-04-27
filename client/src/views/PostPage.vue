@@ -22,8 +22,7 @@ function post() {
         postStore.addPost({
             title: title.value,
             content: body.value,
-            tags: tags.value.split(" "),
-            user: sessionStore.user.username.toString()
+            //tags: tags.value.split(" "),
         });
         router.push('/');
     }
