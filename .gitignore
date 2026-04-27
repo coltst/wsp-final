@@ -45,3 +45,4 @@ server/.env
 client/.env
 
 */scratch.http
+script.sh
