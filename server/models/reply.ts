@@ -71,7 +71,7 @@ async function create(reply: Reply, authorID: number) {
         .from("reply")
         .insert({
             "userid": authorID,
-            "postid": reply.postID,
+            "postid": reply.postid,
             "content": reply.content,
             "creationdate": (new Date()).toISOString()
         })

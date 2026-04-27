@@ -39,8 +39,8 @@ async function create(user: User) {
     const result = await db
         .from("users")
         .insert({
-            "username": user.userName,
-            "bio": user.BIO,
+            "username": user.username,
+            "bio": user.bio,
             "creationdate": (new Date()).toISOString()
         })
         .select()

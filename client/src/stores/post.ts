@@ -20,17 +20,17 @@ export const usePostStore = defineStore('post', () => {
     return session.api<DataEnvelope<Post>>(`/post/${id}`);
   }
 
-  async function addPost(post: Omit<Post, "postID">) {
+  async function addPost(post: Omit<Post, "postid">) {
     const data = await session.api<DataEnvelope<Post>>('/post/new', post);
     posts.value.push(data.data);
     return data;
   }
 
-  async function updatePost(id: number, post: Omit<Post, "postID">) {
+  async function updatePost(id: number, post: Omit<Post, "postid">) {
     const data = await session.api<DataEnvelope<Post>>(`/post/${id}`, post, {
       method: 'PATCH',
     })
-    const index = posts.value.findIndex((p) => p.postID === id)
+    const index = posts.value.findIndex((p) => p.postid === id)
     if (index !== -1) {
       posts.value[index] = data.data
     }
@@ -41,7 +41,7 @@ export const usePostStore = defineStore('post', () => {
     const data = await session.api<DataEnvelope<Post>>(`/post/${id}`, null, {
       method: 'DELETE',
     })
-    const index = posts.value.findIndex((p) => p.postID === id)
+    const index = posts.value.findIndex((p) => p.postid === id)
     if (index !== -1) {
       posts.value.splice(index, 1)
     }
@@ -55,7 +55,7 @@ export const usePostStore = defineStore('post', () => {
 
   async function addComment(post_id: number, body: string) {
     const data = await session.api<DataEnvelope<Post>>(`/reply/new?author=${id.value}`, {
-      "postID": post_id,
+      "postid": post_id,
       "content": body
     });
     posts.value.push(data.data);

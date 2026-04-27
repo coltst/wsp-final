@@ -17,30 +17,30 @@ export type PagingRequest = {
 }
 
 export type User = {
-    userID: number
-    userName: string
-    creationDate: Date
-    BIO: string
+    userid: number
+    username: string
+    creationdate: Date
+    bio: string
 }
 
 export type Post = {
-    postID?: number
-    creationDate: Date
+    postid?: number
+    creationdate: Date
     content: string
     title: string
-    userID?: number
+    userid?: number
     username?: string // returned by the server using a join
 }
 
 export type Reply = {
-    replyID?: number
-    postID?: number
-    userID?: number
+    replyid?: number
+    postid?: number
+    userid?: number
     content: string
 }
 
 export type Reaction = {
     content: string
-    postID: number
-    userID: number
+    postid: number
+    userid: number
 }

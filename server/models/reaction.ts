@@ -35,7 +35,7 @@ async function create(reply: Reaction, authorID: number) {
         .from("reaction")
         .insert({
             "userid": authorID,
-            "postid": reply.postID,
+            "postid": reply.postid,
             "content": reply.content
         })
         .select()
@@ -52,8 +52,8 @@ async function remove(reply: Reaction) {
     const result = await db
         .from("reaction")
         .delete()
-        .eq("postid", reply.postID)
-        .eq("userid", reply.userID)
+        .eq("postid", reply.postid)
+        .eq("userid", reply.userid)
         .eq("content", reply.content)
         .select()
         .single()

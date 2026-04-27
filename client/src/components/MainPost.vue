@@ -15,7 +15,7 @@ const postStore = usePostStore();
 const sessionStore = useSessionStore();
 console.log(props.post);
 const comments = ref<Reply[]>([]);
-postStore.getComments(props.post?.postID ?? -1).then((result) => {comments.value = result;})
+postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;})
 
 function deletePost() {
     if (sessionStore.user.admin) {
