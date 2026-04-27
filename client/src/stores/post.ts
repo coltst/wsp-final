@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { useSessionStore } from './session'
 //import type { NewPost, Post } from '@/types'
 //import dataPosts from '../data/posts.json'
-import { Reply, type DataEnvelope, type DataListEnvelope, type Post } from "../../../server/types";
+import type { Reply, DataEnvelope, DataListEnvelope, Post } from "../../../server/types";
 
 export const usePostStore = defineStore('post', () => {
   const session = useSessionStore();
