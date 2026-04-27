@@ -10,7 +10,7 @@ import { faToolbox } from '@fortawesome/free-solid-svg-icons'
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
-import { Reply, type Post } from '../../../server/types';
+import type { Reply, Post } from '../../../server/types';
 import { ref } from 'vue';
 
 const postStore = usePostStore();

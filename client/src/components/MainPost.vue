@@ -3,7 +3,7 @@ import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import type { Reply, Post, Reaction } from '../../../server/types';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
@@ -21,14 +21,16 @@ function getComments() {
 }
 getComments();
 
+const reactionBox = ref("");
 
 const reactions = ref<Reaction[]>([]);
 function loadReactions() {
     postStore.getReactions(props.post?.postid ?? -1).then((result) => {reactions.value = result;});
 }
 loadReactions();
-function addReaction(content: string) {
+function addReaction(emoji?: string) {
     // TODO: remove reaction if we already did it
+    const content = emoji ? emoji : reactionBox.value;
     postStore.addReaction(props.post?.postid ?? -1, content).then(() => {
         loadReactions();
     });
@@ -75,6 +77,10 @@ function groupReactions(array: Reaction[]) {
         <div class="reactions flex">
             <div class="reaction m-2 p-2" v-for="reaction in groupReactions(reactions)" :key="reaction?.count + reaction?.emoji" @click="addReaction(reaction?.emoji)">
                 {{  reaction?.emoji }} {{ reaction?.count }}
+            </div>
+            <div class="reaction m-2 p-2">
+                <input type="text" v-model="reactionBox">
+                <a @click="addReaction()"><FontAwesomeIcon :icon="faPlus" /></a>
             </div>
         </div>
         <div class="body">{{ post?.content }}</div>
