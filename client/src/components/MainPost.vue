@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import { type Reply, type Post, Reaction } from '../../../server/types';
+import type { Reply, Post, Reaction } from '../../../server/types';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
