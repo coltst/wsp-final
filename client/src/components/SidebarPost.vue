@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import type { Post } from '@/types';
+import type { Post } from '../../../server/types';
 
 const props = defineProps<{
     post?: Post
@@ -11,8 +11,8 @@ const props = defineProps<{
 <template>
     <div class="post hover">
         <div class="postinner"></div>
-        <div class="author">{{ post?.user }}</div>
-        <div class="title m-4">{{ post?.title }}</div>
+        <div class="author">{{ post?.userID }}</div>
+        <div class="title m-4">{{ post?.content }}</div>
     </div>
 </template>
 

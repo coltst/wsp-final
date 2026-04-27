@@ -1,30 +1,5 @@
 export type User = {
-    username: String,
+    username: string,
     logged: boolean,
     admin: boolean
-}
-
-export type Post = {
-    id: number,
-    title: string,
-    body: string,
-    tags: string[],
-    reactions: {
-        likes: number,
-        dislikes: number
-    },
-    views: number,
-    user: string,
-    comments: {
-        id: number,
-        body: string,
-        user: string
-    }[]
-}
-
-export type NewPost = {
-    title: string,
-    body: string,
-    tags: string[],
-    user: string
 }
