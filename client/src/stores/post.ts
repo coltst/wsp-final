@@ -67,7 +67,7 @@ export const usePostStore = defineStore('post', () => {
   }
   
   async function addReaction(post_id: number, content: string) {
-    const data = await session.api<DataEnvelope<Post>>(`/reaction/post/new?author=${id.value}`, {
+    const data = await session.api<DataEnvelope<Post>>(`/reaction/new?author=${id.value}`, {
       "postid": post_id,
       "content": content
     });

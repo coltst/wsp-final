@@ -15,9 +15,17 @@ const postStore = usePostStore();
 const sessionStore = useSessionStore();
 
 const comments = ref<Reply[]>([]);
-postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;})
+postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;});
 const reactions = ref<Reaction[]>([]);
-postStore.getReactions(props.post?.postid ?? -1).then((result) => {reactions.value = result;})
+function loadReactions() {
+    postStore.getReactions(props.post?.postid ?? -1).then((result) => {reactions.value = result;});
+}
+loadReactions();
+function addReaction(content: string) {
+    postStore.addReaction(props.post?.postid ?? -1, content).then(() => {
+        loadReactions();
+    });
+}
 
 function deletePost() {
     if (sessionStore.user.admin) {
@@ -48,7 +56,7 @@ function groupReactions(array: Reaction[]) {
         </div>
         <div class="title m-4">{{ post?.title }}</div>
         <div class="reactions flex">
-            <div class="reaction m-2 p-2" v-for="reaction in groupReactions(reactions)" :key="reaction?.count + reaction?.emoji">
+            <div class="reaction m-2 p-2" v-for="reaction in groupReactions(reactions)" :key="reaction?.count + reaction?.emoji" @click="addReaction(reaction?.emoji)">
                 {{  reaction?.emoji }} {{ reaction?.count }}
             </div>
         </div>
@@ -74,5 +82,6 @@ function groupReactions(array: Reaction[]) {
 
 .reaction {
     border: 1px solid black;
+    cursor: pointer;
 }
 </style>
