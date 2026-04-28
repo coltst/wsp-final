@@ -22,7 +22,6 @@ app.get("/", async (req, res) => {
         res.send(response);
     })
     .post("/new", async (req, res) => {
-        // TODO: remove this when we do JWT
         const newPost = await create(req.body, req.user?.userid ?? -1);
         const response: DataEnvelope<Post> = {
             data: newPost,
