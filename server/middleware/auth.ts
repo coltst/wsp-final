@@ -27,7 +27,7 @@ function validateJWT(req: Request, _res: Response, next: NextFunction) {
     })
 }
 
-function requireAuth(_role?: string, userId?: number) {
+function requireAuth(role?: string, userId?: number) {
     return (req: Request, res: Response, next: NextFunction) => {
         if (!req.user) {
             return res.status(401).send({
@@ -38,14 +38,14 @@ function requireAuth(_role?: string, userId?: number) {
         }
 
         // TODO: implement roles
-        /*if (role && req.user.role !== role) {
+        if (role && req.user.userrole !== role) {
             return res.status(403).send({
                 data: null,
                 isSuccess: false,
                 message:
                     "You do not have the required role to access this resource",
             })
-        }*/
+        }
 
         if (userId && req.user.userid !== userId) {
             return res.status(403).send({

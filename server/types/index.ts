@@ -21,6 +21,7 @@ export type User = {
     username: string
     creationdate: Date
     bio: string
+    userrole?: Role
 }
 
 export type Post = {
@@ -45,3 +46,5 @@ export type Reaction = {
     postid: number
     userid: number
 }
+
+export type Role = "user" | "admin" | undefined;

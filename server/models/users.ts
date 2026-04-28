@@ -1,4 +1,4 @@
-import { PagingRequest, User } from "../types";
+import { PagingRequest, User, Role } from "../types";
 import { connect } from "./supabase";
 import { sign } from "jsonwebtoken";
 
@@ -73,14 +73,15 @@ async function getById(id: number) {
     return result.data;
 }
 
-async function create(user: User) {
+async function create(user: User, userrole: Role) {
     const db = connect();
     const result = await db
         .from("users")
         .insert({
             "username": user.username,
             "bio": user.bio,
-            "creationdate": (new Date()).toISOString()
+            "creationdate": (new Date()).toISOString(),
+            "userrole": userrole
         })
         .select()
         .single();

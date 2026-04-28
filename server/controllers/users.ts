@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getAll, getById, create, update, remove, login } from "../models/users";
 import { DataEnvelope, DataListEnvelope, User } from "../types";
-import { requireAuth } from "../middleware/auth";
+import { requireAuth, validateJWT } from "../middleware/auth";
 
 const app = Router();
 
@@ -52,16 +52,20 @@ app.get("/", async (req, res) => {
         res.send(response);
     })
     .post("/new", async (req, res) => {
-        const newUser = await create(req.body);
+        const newUser = await create(req.body, "user");
         const response: DataEnvelope<User> = {
-            data: newUser,
+            data: {...newUser, userrole: "user"},
             success: true
         }
         res.send(response);
     })
     .patch("/:id", async (req, res) => {
         const { id } = req.params;
-        const updatedUser = await update(Number(id), req.body)
+        const updatedUser = await update(Number(id), req.body);
+        // only allow changing role if you are admin
+        if (req.user?.userrole !== "admin") {
+            if (updatedUser['userrole']) { delete updatedUser['userrole']; }
+        }
         const response: DataEnvelope<User> = {
             data: updatedUser as User,
             success: true,

@@ -2,7 +2,8 @@ CREATE TABLE IF NOT EXISTS users (
     userid       INTEGER GENERATED ALWAYS AS idENTITY PRIMARY KEY,
     username     VARCHAR(25)    NOT NULL,
     creationdate TIMESTAMPTZ           NOT NULL,
-    bio          TEXT           NOT NULL
+    bio          TEXT           NOT NULL,
+    userrole     TEXT           NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS post (
