@@ -40,9 +40,7 @@ export const useSessionStore = defineStore('session', () => {
     }>("/users/login", {
       username: username
     }).then((newUser) => {
-      console.log(newUser);
       user.value = (newUser.data ?? {}).user ?? null;
-      console.log(user.value);
     });
   }   
   function logout() {
