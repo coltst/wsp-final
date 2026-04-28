@@ -46,7 +46,7 @@ function logout() {
         <div class="toolboxbuttoninner" />
     </RouterLink>
 
-    <RouterLink class="toolboxbutton toolboxbutton5" v-if="isClicked" to="/register">
+    <RouterLink class="toolboxbutton toolboxbutton5" v-if="isClicked && (sessionStore.user === null)" to="/register">
         <FontAwesomeIcon :icon="faPersonCirclePlus" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>
