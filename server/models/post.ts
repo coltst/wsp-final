@@ -75,8 +75,24 @@ async function update(id: number, post: Partial<Post>) {
 }
 
 async function remove(id: number): Promise<Post> {
-    //TODO: remove replies
     const db = connect();
+    
+    const replyDeleteResult = await db
+    .from("reply")
+    .delete()
+    .eq("postid", id);
+    if (replyDeleteResult.error) {
+        throw replyDeleteResult.error;
+    }
+    
+    const reactDeleteResult = await db
+    .from("reaction")
+    .delete()
+    .eq("postid", id);
+    if (reactDeleteResult.error) {
+        throw reactDeleteResult.error;
+    }
+
     const result = await db
         .from("post")
         .delete()
