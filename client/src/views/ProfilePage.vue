@@ -2,12 +2,9 @@
 
 import { useSessionStore } from '@/stores/session';
 import UserInfo from '@/components/UserInfo.vue';
-import { usePostStore } from '@/stores/post';
 import type { DataEnvelope, User } from '../../../server/types';
 import { ref } from 'vue';
 const sessionStore = useSessionStore();
-
-const postStore = usePostStore();
 
 
 const myPosts = ref(0);

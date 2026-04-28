@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { usePostStore } from '@/stores/post';
-import { useSessionStore } from '@/stores/session';
+
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const postStore = usePostStore();
-const sessionStore = useSessionStore();
+
 const router = useRouter();
 
 const title = ref("");
