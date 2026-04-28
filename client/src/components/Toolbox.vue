@@ -20,23 +20,23 @@ function logout() {
         </div>
         <FontAwesomeIcon :icon="faToolbox" inverse />
     </div>
-    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && !sessionStore.user.logged" to="/login">
+    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && (sessionStore.user === null)" to="/login">
         <FontAwesomeIcon :icon="faRightToBracket" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>
 
-    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && sessionStore.user.logged" to="/profile">
+    <RouterLink class="toolboxbutton toolboxbutton1" v-if="isClicked && !(sessionStore.user === null)" to="/profile">
         <FontAwesomeIcon :icon="faUser" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>
 
-    <RouterLink class="toolboxbutton toolboxbutton2" v-if="isClicked && sessionStore.user.logged" to="/"
+    <RouterLink class="toolboxbutton toolboxbutton2" v-if="isClicked && !(sessionStore.user === null)" to="/"
         @click="logout()">
         <FontAwesomeIcon :icon="faRightFromBracket" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>
 
-    <RouterLink class="toolboxbutton toolboxbutton3" v-if="isClicked && sessionStore.user.logged" to="/post">
+    <RouterLink class="toolboxbutton toolboxbutton3" v-if="isClicked && !(sessionStore.user === null)" to="/post">
         <FontAwesomeIcon :icon="faPlus" inverse />
         <div class="toolboxbuttoninner" />
     </RouterLink>

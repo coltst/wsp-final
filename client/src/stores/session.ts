@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { User } from '@/types'
+import type { User } from '../../../server/types'
 import { api as myApi } from '@/services/api'
 
 export type FeedbackMessage = {
@@ -9,19 +9,8 @@ export type FeedbackMessage = {
 }
 
 export const useSessionStore = defineStore('session', () => {
-  const user = ref<User>({
-    username: "test",
-    logged: false,
-    admin: false
-  })
-  function setUser(newUser: User) {
-    user.value = newUser
-  }
-  function logout() {
-    user.value.username = "";
-    user.value.logged = false;
-    user.value.admin = false;
-  }
+  const user = ref<User | null>(null);
+
   const messages = ref<FeedbackMessage[]>([])
   function addMessage(text: string, type: FeedbackMessage['type'] = 'info') {
     messages.value.push({ type, text })
@@ -39,5 +28,27 @@ export const useSessionStore = defineStore('session', () => {
     });
   }
 
-  return { user, setUser, logout, addMessage, handleError, api }
+
+
+  async function login(username: string) {
+    api<{
+      data?: {
+        token: string,
+        user?: User
+      },
+      success: boolean
+    }>("/users/login", {
+      username: username
+    }).then((newUser) => {
+      console.log(newUser);
+      user.value = (newUser.data ?? {}).user ?? null;
+      console.log(user.value);
+    });
+  }   
+  function logout() {
+    user.value = null;
+  }
+
+
+  return { user, login, logout, addMessage, handleError, api }
 })

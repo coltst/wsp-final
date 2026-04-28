@@ -7,10 +7,10 @@ const sessionStore = useSessionStore();
 
 const postStore = usePostStore();
 
-const myPosts = sessionStore.user.logged ?
-    postStore.posts.filter((post) => post.user === sessionStore.user.username)
+const myPosts = !(sessionStore.user === null) ?
+    postStore.posts.filter((post) => post.userid === sessionStore.user?.userid)
     : [];
-const myComments = sessionStore.user.logged ?
+const myComments = !(sessionStore.user === null) ?
     postStore.posts.reduce((accumulator, post) => accumulator + post.comments.filter((comment) => comment.user === sessionStore.user.username).length, 0)
     : 0;
 

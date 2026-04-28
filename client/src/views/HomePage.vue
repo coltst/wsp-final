@@ -29,7 +29,7 @@ function showPost(post: Post) {
     newComments.value = [];
 }
 function canComment() {
-    return lookingAtPost.value && sessionStore.user.logged;
+    return lookingAtPost.value && !(sessionStore.user === null);
 }
 
 </script>
