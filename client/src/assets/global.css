@@ -25,7 +25,7 @@ body {
 
 .post {
     border-radius: 1rem / 1rem;
-    background: linear-gradient(0deg, rgba(82, 82, 82, 0.5), rgba(136, 136, 136, 0));
+    /*background: linear-gradient(0deg, rgba(82, 82, 82, 0.5), rgba(136, 136, 136, 0));*/
     border: 1px solid grey;
     z-index: 5;
     color: rgb(180, 180, 180);
