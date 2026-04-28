@@ -33,7 +33,7 @@ app.get("/", async (req, res) => {
     })
     .post("/new", async (req, res) => {
         // TODO: remove this when we do JWT
-        const newReply = await create(req.body, Number(req.query.author));
+        const newReply = await create(req.body, req.user?.userid ?? -1);
         const response: DataEnvelope<Reply> = {
             data: newReply,
             success: true

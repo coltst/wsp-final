@@ -47,7 +47,7 @@ watch(
 )
 
 function deletePost() {
-    if (sessionStore.user.admin) {
+    if (sessionStore.user?.userrole === "admin") {
         postStore.deletePost(Number(props.post?.postid));
     }
 }
@@ -70,8 +70,8 @@ function groupReactions(array: Reaction[]) {
         <div class="postinner"></div>
         <div class="author">
             {{ post?.username }}
-            <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user.admin }"
-                @click="deletePost()" v-if="sessionStore.user.admin" />
+            <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user?.userrole === 'admin' }"
+                @click="deletePost()" v-if="sessionStore.user?.userrole === 'admin'" />
         </div>
         <div class="title m-4">{{ post?.title }}</div>
         <div class="reactions flex">

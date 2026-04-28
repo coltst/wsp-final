@@ -8,7 +8,6 @@ import type { Reply, DataEnvelope, DataListEnvelope, Post, Reaction } from "../.
 export const usePostStore = defineStore('post', () => {
   const session = useSessionStore();
   const posts = ref<Post[]>([]);
-  const id = ref(2);
 
   // The store functions as the controller
   async function loadPosts() {
@@ -21,7 +20,7 @@ export const usePostStore = defineStore('post', () => {
   }
 
   async function addPost(post: Partial<Post>) {
-    const data = await session.api<DataEnvelope<Post>>(`/post/new?author=${id.value}`, post);
+    const data = await session.api<DataEnvelope<Post>>(`/post/new`, post);
     posts.value.push(data.data);
     return data;
   }
@@ -54,7 +53,7 @@ export const usePostStore = defineStore('post', () => {
   }
 
   async function addComment(post_id: number, body: string) {
-    const data = await session.api<DataEnvelope<Post>>(`/reply/new?author=${id.value}`, {
+    const data = await session.api<DataEnvelope<Post>>(`/reply/new`, {
       "postid": post_id,
       "content": body
     });
@@ -67,7 +66,7 @@ export const usePostStore = defineStore('post', () => {
   }
   
   async function addReaction(post_id: number, content: string) {
-    const data = await session.api<DataEnvelope<Post>>(`/reaction/new?author=${id.value}`, {
+    const data = await session.api<DataEnvelope<Post>>(`/reaction/new`, {
       "postid": post_id,
       "content": content
     });

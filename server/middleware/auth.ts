@@ -36,8 +36,7 @@ function requireAuth(role?: string, userId?: number) {
                 message: "You must log in to access this resource",
             })
         }
-
-        // TODO: implement roles
+        
         if (role && req.user.userrole !== role) {
             return res.status(403).send({
                 data: null,

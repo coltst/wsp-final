@@ -35,7 +35,7 @@ app.get("/", async (req, res) => {
             // we'll call this a bad request
             throw {status: 400, message: "Malformed emoji react"};
         }
-        const newReact = await create(req.body, Number(req.query.author));
+        const newReact = await create(req.body, req.user?.userid ?? -1);
         const response: DataEnvelope<Reaction> = {
             data: newReact,
             success: true
