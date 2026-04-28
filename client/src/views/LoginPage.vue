@@ -14,7 +14,7 @@ const text = ref("");
 
 
 function login() {
-    sessionStore.login(text.value).then(() => {
+    sessionStore.login(text.value, "none yet").then(() => {
         router.push('/');
     });
 }
