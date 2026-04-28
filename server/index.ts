@@ -7,6 +7,7 @@ import postController from "./controllers/post"
 import replyController from "./controllers/reply"
 import reactionController from "./controllers/reaction"
 
+// We do not need requireAuth here because all controllers have functions that should be public
 import { validateJWT } from "./middleware/auth";
 
 const PORT = process.env.PORT ?? 3000;
@@ -15,10 +16,16 @@ const STATIC_DIR = process.env.SERVE ?? "../client/dist";
 
 const app = express();
 
-app.use((_req, res, next) => {
+app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
     res.setHeader("Access-Control-Allow-Headers", "*");
+    
+    if (req.method === "OPTIONS") {
+        res.sendStatus(200);
+        return;
+    }
+
     next();
 });
 app.use(express.json())

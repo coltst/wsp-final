@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getAll, getById, create, update, remove, login } from "../models/users";
 import { DataEnvelope, DataListEnvelope, User } from "../types";
+import { requireAuth } from "../middleware/auth";
 
 const app = Router();
 
