@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, getById, create, update, remove } from "../models/users";
+import { getAll, getById, create, update, remove, login } from "../models/users";
 import { DataEnvelope, DataListEnvelope, User } from "../types";
 
 const app = Router();
@@ -17,6 +17,31 @@ app.get("/", async (req, res) => {
    };
    res.send(response);
 })
+    .get("/me", async (req, res) => {
+    const userId = req.user?.userid ?? null;
+    if (!userId) {
+        res.status(401).send({
+            data: null,
+            isSuccess: false,
+            message: "Unauthorized",
+        });
+    } else {
+        res.status(200).send({
+            data: req.user,
+            success: true
+        });
+    }
+        return;
+    })
+    .post("/login", async (req, res) => {
+        const { username, password } = req.body
+
+        const response: DataEnvelope<{ token: string; user: User }> = {
+            data: await login(username, password),
+            success: true,
+        }
+        res.send(response)
+    })
     .get("/:id", async (req, res) => {
         const { id } = req.params;
         const response: DataEnvelope<User> = {

@@ -1,5 +1,44 @@
 import { PagingRequest, User } from "../types";
 import { connect } from "./supabase";
+import { sign } from "jsonwebtoken";
+
+
+export async function login(
+    username: string,
+    _password: string,
+): Promise<{ token: string; user: User }> {
+    const db = connect()
+    const result = await db
+        .from('users')
+        .select("*")
+        .eq("username", username)
+        .single()
+    if (result.error) {
+        throw result.error;
+    }
+    const user = result.data as User;
+    // TODO: do this
+    /* If we had passwords, we would verify them here.
+    if (!user || user.password !== _password) {
+        const error = { status: 401, message: "Invalid email or password" }
+        throw error
+    }
+    */
+    return new Promise((resolve, reject) => {
+        sign(
+            user,
+            process.env.JWT_SECRET || "secret",
+            { expiresIn: "1h" },
+            (err, token) => {
+                if (err || !token) {
+                    reject(err || new Error("Token generation failed"));
+                    return;
+                }
+                resolve({ token, user });
+            },
+        );
+    })
+}
 
 async function getAll(params: PagingRequest) {
     const db = connect();

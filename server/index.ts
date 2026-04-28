@@ -7,6 +7,8 @@ import postController from "./controllers/post"
 import replyController from "./controllers/reply"
 import reactionController from "./controllers/reaction"
 
+import { validateJWT } from "./middleware/auth";
+
 const PORT = process.env.PORT ?? 3000;
 const HOSTNAME = process.env.BIND ?? "localhost";
 const STATIC_DIR = process.env.SERVE ?? "../client/dist";
@@ -19,7 +21,8 @@ app.use((_req, res, next) => {
     res.setHeader("Access-Control-Allow-Headers", "*");
     next();
 });
-app.use(express.json());
+app.use(express.json())
+ .use(validateJWT);
 app.use(express.static(STATIC_DIR))
     .use("/api/v1/users", usersController)
     .use("/api/v1/post", postController)
