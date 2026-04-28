@@ -23,8 +23,9 @@ function post() {
             title: title.value,
             content: body.value,
             //tags: tags.value.split(" "),
+        }).then(() => {
+            router.push('/');
         });
-        router.push('/');
     }
 }
 </script>
