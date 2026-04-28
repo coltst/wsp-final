@@ -53,9 +53,6 @@ function canComment() {
                     <p>Click the Toolbox
                         <FontAwesomeIcon :icon="faToolbox" /> to log in, then view your profile or post!
                     </p>
-                    <p>This is the client-only test frontend, so data is not sent to a server and as such will disappear
-                        on restart (any existing data is dummy data that was included at build-time). To test the
-                        frontend in admin mode, set your username to admin.</p>
                 </div>
             </div>
             <!--overlay the comment box-->

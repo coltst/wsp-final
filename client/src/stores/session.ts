@@ -19,14 +19,26 @@ export const useSessionStore = defineStore('session', () => {
       '/users/login',
       { username, password },
       { method: 'POST' },
-    )
+    );
     if (!response.success) {
-      addMessage(response.message || 'Login failed', 'danger')
-      return
+      addMessage(response.message || 'Login failed', 'danger');
+      return;
     }
-    const { user: loggedInUser, token: authToken } = response.data
-    user.value = loggedInUser
-    token.value = authToken
+    const { user: loggedInUser, token: authToken } = response.data;
+    user.value = loggedInUser;
+    token.value = authToken;
+  }
+
+  async function register(username: string, _password: string) {
+    const response = await myApi<DataEnvelope<{ user: User; token: string }>>(
+      '/users/new',
+      { username: username, bio: "" },
+      { method: 'POST' },
+    );
+    if (!response.success) {
+      addMessage(response.message || 'Register failed', 'danger');
+      return;
+    }
   }
 
   function logout() {
@@ -58,5 +70,5 @@ export const useSessionStore = defineStore('session', () => {
     });
   }
 
-  return { user, login, token, logout, addMessage, handleError, api }
+  return { user, login, register, token, logout, addMessage, handleError, api }
 })
