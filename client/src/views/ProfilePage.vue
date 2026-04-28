@@ -3,16 +3,21 @@
 import { useSessionStore } from '@/stores/session';
 import UserInfo from '@/components/UserInfo.vue';
 import { usePostStore } from '@/stores/post';
+import type { DataEnvelope, User } from '../../../server/types';
+import { ref } from 'vue';
 const sessionStore = useSessionStore();
 
 const postStore = usePostStore();
 
-const myPosts = !(sessionStore.user === null) ?
-    postStore.posts.filter((post) => post.userid === sessionStore.user?.userid)
-    : [];
-const myComments = !(sessionStore.user === null) ?
-    postStore.posts.reduce((accumulator, post) => accumulator + post.comments.filter((comment) => comment.user === sessionStore.user.username).length, 0)
-    : 0;
+
+const myPosts = ref(0);
+const myComments = ref(0);
+
+
+sessionStore.api<DataEnvelope<User>>(`/users/${sessionStore.user?.userid}`).then((res) => {
+    myPosts.value = res.data?.posts ?? 0;
+    myComments.value = res.data?.comments ?? 0;
+});
 
 </script>
 
@@ -27,7 +32,7 @@ const myComments = !(sessionStore.user === null) ?
             <div class="mainpanel w-full h-[30%] mx-9">
                 <div class="h-full flex items-center justify-center flex-row gap-[10%]">
                     <div class="w-[25%] h-[90%] mainpanel flex items-center justify-center">
-                        <p>{{ myPosts.length }} posts</p>
+                        <p>{{ myPosts }} posts</p>
                     </div>
                     <div class="w-[25%] h-[90%] mainpanel flex items-center justify-center">
                         <p>{{ myComments }} comments</p>

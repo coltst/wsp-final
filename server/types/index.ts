@@ -22,6 +22,8 @@ export type User = {
     creationdate: Date
     bio: string
     userrole?: Role
+    posts?: number // returned by the server using a join
+    comments?: number // returned by the server using a join
 }
 
 export type Post = {

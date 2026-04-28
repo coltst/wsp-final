@@ -66,10 +66,14 @@ async function getAll(params: PagingRequest) {
 
 async function getById(id: number) {
     const db = connect();
-    const result = await db.from("users").select("*").eq("userid", id).single();
+    const result = await db.from("users").select("*, post!userpostfk (count), reply!userreplyfk (count)").eq("userid", id).single();
     if (result.error) {
         throw {status: 404, message: "User not found"};
     }
+    result.data['posts'] = result.data['post'][0]['count'];
+    result.data['comments'] = result.data['reply'][0]['count'];
+    delete result.data['post'];
+    delete result.data['reply'];
     return result.data;
 }
 
