@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getAll, getByPostID, create, remove } from "../models/reaction";
 import { DataEnvelope, DataListEnvelope, Reaction } from "../types";
+import { requireAuth } from "../middleware/auth";
 
 const app = Router();
 
@@ -29,7 +30,7 @@ app.get("/", async (req, res) => {
         };
         res.send(response);
     })
-    .post("/new", async (req, res) => {
+    .post("/new", requireAuth(), async (req, res) => {
         // TODO: remove this when we do JWT
         if (!validateReact(req.body.content ?? "INVALIDREACT")) {
             // we'll call this a bad request
@@ -47,7 +48,7 @@ app.get("/", async (req, res) => {
     // since again we are using a composite primary key and no
     // "reactionID" primary key
     // it feels more appropriate to do it this way
-    .delete("/", async (req, res) => {
+    .delete("/", requireAuth('admin'), async (req, res) => {
         const removedReact = await remove(req.body);
         const response: DataEnvelope<Reaction> = {
             data: removedReact,

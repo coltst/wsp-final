@@ -18,7 +18,7 @@ app.get("/", async (req, res) => {
    };
    res.send(response);
 })
-    .get("/me", async (req, res) => {
+    .get("/me", requireAuth(), async (req, res) => {
     const userId = req.user?.userid ?? null;
     if (!userId) {
         res.status(401).send({
@@ -72,7 +72,7 @@ app.get("/", async (req, res) => {
         }
         res.send(response)
     })
-    .delete("/:id", async (req, res) => {
+    .delete("/:id", requireAuth('admin'), async (req, res) => {
         const { id } = req.params;
         const removedUser = await remove(Number(id));
         const response: DataEnvelope<User> = {
