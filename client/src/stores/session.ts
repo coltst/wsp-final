@@ -19,9 +19,9 @@ export const useSessionStore = defineStore('session', () => {
       '/users/login',
       { username, password },
       { method: 'POST' },
-    );
-    if (!response.success) {
-      addMessage(response.message || 'Login failed', 'danger');
+    ).catch((err) => handleError(err)); // we are not using the API call function with built-in error handling
+    if (!response?.success) {
+      addMessage(response?.message || 'Login failed', 'danger');
       return;
     }
     const { user: loggedInUser, token: authToken } = response.data;
@@ -34,9 +34,9 @@ export const useSessionStore = defineStore('session', () => {
       '/users/new',
       { username: username, bio: "" },
       { method: 'POST' },
-    );
-    if (!response.success) {
-      addMessage(response.message || 'Register failed', 'danger');
+    ).catch((err) => handleError(err));;
+    if (!response?.success) {
+      addMessage(response?.message || 'Register failed', 'danger');
       return;
     }
   }
@@ -46,9 +46,9 @@ export const useSessionStore = defineStore('session', () => {
     token.value = null
   }
 
-  const messages = ref<FeedbackMessage[]>([])
   function addMessage(text: string, type: FeedbackMessage['type'] = 'info') {
-    messages.value.push({ type, text })
+    // TODO; turn this into some kind of toast for all types of messages??
+    if (type == 'danger') { alert(text); }
   }
   function handleError(error: Error | string) {
     const message = typeof error === 'string' ? error : error.message
