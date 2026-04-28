@@ -6,32 +6,32 @@ import { requireAuth, validateJWT } from "../middleware/auth";
 const app = Router();
 
 app.get("/", async (req, res) => {
-   const {result, count} = await getAll(req.query);
-   const sanitizedUsers = result.map((x) => ({
-    ...x
-    // TODO: add password hash when it is added
-   }));
-   const response: DataListEnvelope<User> = {
-    data: sanitizedUsers,
-    success: true,
-    total: count
-   };
-   res.send(response);
+    const { result, count } = await getAll(req.query);
+    const sanitizedUsers = result.map((x) => ({
+        ...x
+        // TODO: add password hash when it is added
+    }));
+    const response: DataListEnvelope<User> = {
+        data: sanitizedUsers,
+        success: true,
+        total: count
+    };
+    res.send(response);
 })
     .get("/me", requireAuth(), async (req, res) => {
-    const userId = req.user?.userid ?? null;
-    if (!userId) {
-        res.status(401).send({
-            data: null,
-            isSuccess: false,
-            message: "Unauthorized",
-        });
-    } else {
-        res.status(200).send({
-            data: req.user,
-            success: true
-        });
-    }
+        const userId = req.user?.userid ?? null;
+        if (!userId) {
+            res.status(401).send({
+                data: null,
+                isSuccess: false,
+                message: "Unauthorized",
+            });
+        } else {
+            res.status(200).send({
+                data: req.user,
+                success: true
+            });
+        }
         return;
     })
     .post("/login", async (req, res) => {
@@ -54,18 +54,26 @@ app.get("/", async (req, res) => {
     .post("/new", async (req, res) => {
         const newUser = await create(req.body, "user");
         const response: DataEnvelope<User> = {
-            data: {...newUser, userrole: "user"},
+            data: { ...newUser, userrole: "user" },
             success: true
         }
         res.send(response);
     })
     .patch("/:id", async (req, res) => {
         const { id } = req.params;
-        const updatedUser = await update(Number(id), req.body);
+        const userUpdates = req.body;
         // only allow changing role if you are admin
         if (req.user?.userrole !== "admin") {
-            if (updatedUser['userrole']) { delete updatedUser['userrole']; }
+            if (req.user?.userid !== Number(id)) {
+                res.status(401).send({
+                    data: null,
+                    isSuccess: false,
+                    message: "Unauthorized",
+                });
+            }
+            if (userUpdates['userrole']) { delete userUpdates['userrole']; }
         }
+        const updatedUser = await update(Number(id), userUpdates);
         const response: DataEnvelope<User> = {
             data: updatedUser as User,
             success: true,
