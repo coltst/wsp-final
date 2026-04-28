@@ -16,7 +16,18 @@ export async function login(
     if (result.error) {
         throw result.error;
     }
-    const user = result.data as User;
+
+    // if the user is the specified admin user, make sure to update the DB and apply it
+            const admin_user = Number(process.env.ADMIN_USER_ID ?? -1);
+            let role = result.data.userrole;
+            if (result.data.userid === admin_user && admin_user !== -1) {
+                update(result.data.userid, {
+                    userrole: 'admin'
+                });
+                role = 'admin';
+            }
+
+    const user = {...result.data, userrole: role} as User;
     // TODO: do this
     /* If we had passwords, we would verify them here.
     if (!user || user.password !== _password) {
