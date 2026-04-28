@@ -47,6 +47,7 @@ export type Reaction = {
     content: string
     postid: number
     userid: number
+    removed?: boolean // in toggle
 }
 
 export type Role = "user" | "admin" | undefined;

@@ -65,12 +65,19 @@ export const usePostStore = defineStore('post', () => {
     return data.data;
   }
   
-  async function addReaction(post_id: number, content: string) {
-    const data = await session.api<DataEnvelope<Post>>(`/reaction/new`, {
-      "postid": post_id,
-      "content": content
-    });
-    return data;
+  async function addReaction(post_id: number, content: string, toggle?: boolean) {
+    if (toggle ?? false) {
+      const data = await session.api<DataEnvelope<Post>>(`/reaction/post/toggle/${post_id}`, {
+        "content": content
+      });
+      return data;
+    } else {
+      const data = await session.api<DataEnvelope<Post>>(`/reaction/new`, {
+        "postid": post_id,
+        "content": content
+      });
+      return data;
+    }
   }
 
   return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments, getReactions, addReaction }
