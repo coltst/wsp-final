@@ -1,20 +1,20 @@
 <script setup lang="ts">
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { useSessionStore } from '@/stores/session';
 import UserInfo from '@/components/UserInfo.vue';
-import { usePostStore } from '@/stores/post';
+import type { DataEnvelope, User } from '../../../server/types';
+import { ref } from 'vue';
 const sessionStore = useSessionStore();
 
-const postStore = usePostStore();
 
-const myPosts = sessionStore.user.logged ?
-    postStore.posts.filter((post) => post.user === sessionStore.user.username)
-    : [];
-const myComments = sessionStore.user.logged ?
-    postStore.posts.reduce((accumulator, post) => accumulator + post.comments.filter((comment) => comment.user === sessionStore.user.username).length, 0)
-    : 0;
+const myPosts = ref(0);
+const myComments = ref(0);
+
+
+sessionStore.api<DataEnvelope<User>>(`/users/${sessionStore.user?.userid}`).then((res) => {
+    myPosts.value = res.data?.posts ?? 0;
+    myComments.value = res.data?.comments ?? 0;
+});
 
 </script>
 
@@ -24,12 +24,12 @@ const myComments = sessionStore.user.logged ?
             <UserInfo />
         </div>
         <div class="col-start-1 row-start-2 row-span-11 mainpanel flex items-center justify-center flex-col gap-[15%] px-4"
-            :class="{ 'col-span-1': sessionStore.user.admin, 'col-span-2': !sessionStore.user.admin }">
-            <h1>{{ sessionStore.user.username }}</h1>
+            :class="{ 'col-span-1': sessionStore.user?.userrole === 'admin', 'col-span-2': !(sessionStore.user?.userrole === 'admin') }">
+            <h1>{{ sessionStore.user?.username }}</h1>
             <div class="mainpanel w-full h-[30%] mx-9">
                 <div class="h-full flex items-center justify-center flex-row gap-[10%]">
                     <div class="w-[25%] h-[90%] mainpanel flex items-center justify-center">
-                        <p>{{ myPosts.length }} posts</p>
+                        <p>{{ myPosts }} posts</p>
                     </div>
                     <div class="w-[25%] h-[90%] mainpanel flex items-center justify-center">
                         <p>{{ myComments }} comments</p>
@@ -38,7 +38,7 @@ const myComments = sessionStore.user.logged ?
             </div>
         </div>
         <div class="col-start-2 col-span-1 row-start-2 row-span-11 mainpanel infopanel flex items-center justify-center flex-col"
-            v-if="sessionStore.user.admin">
+            v-if="sessionStore.user?.userrole === 'admin'">
             <p>Since you are logged in as an administrator, you can delete any post.</p>
         </div>
     </div>

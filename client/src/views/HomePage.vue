@@ -10,23 +10,28 @@ import { faToolbox } from '@fortawesome/free-solid-svg-icons'
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
-import type { Post } from '@/types';
+import type { Reply, Post } from '../../../server/types';
 import { ref } from 'vue';
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
+postStore.loadPosts();
 
 const displayedPost = ref<Post>();
 const lookingAtPost = ref<boolean>(false);
 
 
+const newComments = ref<Reply[]>([]);
+
 function showPost(post: Post) {
     displayedPost.value = post;
     lookingAtPost.value = true;
+    newComments.value = [];
 }
 function canComment() {
-    return lookingAtPost.value && sessionStore.user.logged;
+    return lookingAtPost.value && !(sessionStore.user === null);
 }
+
 </script>
 
 <template>
@@ -36,11 +41,11 @@ function canComment() {
                 <UserInfo />
             </div>
             <div class="col-start-1 row-start-2 col-span-1 row-span-11 p-4 secondarypanel overflow-y-scroll">
-                <SidebarPost v-for="value in postStore.posts" :post="value" @click="showPost(value)" />
+                <SidebarPost v-for="value in postStore.posts" v-bind:key="value.postid" :post="value" @click="showPost(value)" />
             </div>
             <div class="col-start-2 row-start-2 col-span-3 p-4 mainpanel overflow-y-scroll"
                 :class="{ 'row-span-9': canComment(), 'row-span-11': !canComment() }">
-                <MainPost v-if="displayedPost ? true : false" :post="displayedPost" />
+                <MainPost v-if="displayedPost ? true : false" :post="displayedPost" :new-comments="newComments" />
                 <div class="infopanel w-full h-full flex items-center justify-center flex-col"
                     v-if="displayedPost ? false : true">
                     <p>Welcome to the forum!</p>
@@ -48,14 +53,11 @@ function canComment() {
                     <p>Click the Toolbox
                         <FontAwesomeIcon :icon="faToolbox" /> to log in, then view your profile or post!
                     </p>
-                    <p>This is the client-only test frontend, so data is not sent to a server and as such will disappear
-                        on restart (any existing data is dummy data that was included at build-time). To test the
-                        frontend in admin mode, set your username to admin.</p>
                 </div>
             </div>
             <!--overlay the comment box-->
             <div v-if="canComment()" class="col-start-2 row-start-11 col-span-3 row-span-2 z-90">
-                <CommentBox :post="displayedPost" />
+                <CommentBox :post="displayedPost" @new-comment="(comment) => {newComments.push(comment)}" />
             </div>
         </div>
     </div>

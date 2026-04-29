@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, getById, create, update, remove } from "../models/reply";
+import { getAll, getById, create, update, remove, getAllForPost } from "../models/reply";
 import { DataEnvelope, DataListEnvelope, Reply } from "../types";
 
 const app = Router();
@@ -21,9 +21,18 @@ app.get("/", async (req, res) => {
         };
         res.send(response);
     })
+    .get("/post/:id", async (req, res) => {
+        const { id } = req.params;
+        const list = await getAllForPost(req.body, Number(id));
+        const response: DataListEnvelope<Reply> = {
+            data: list.result,
+            success: true,
+            total: list.result.length
+        };
+        res.send(response);
+    })
     .post("/new", async (req, res) => {
-        // TODO: remove this when we do JWT
-        const newReply = await create(req.body, Number(req.query.author));
+        const newReply = await create(req.body, req.user?.userid ?? -1);
         const response: DataEnvelope<Reply> = {
             data: newReply,
             success: true

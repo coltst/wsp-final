@@ -1,5 +1,55 @@
-import { PagingRequest, User } from "../types";
+import { PagingRequest, User, Role } from "../types";
 import { connect } from "./supabase";
+import { sign } from "jsonwebtoken";
+
+
+export async function login(
+    username: string,
+    _password: string,
+): Promise<{ token: string; user: User }> {
+    const db = connect()
+    const result = await db
+        .from('users')
+        .select("*")
+        .eq("username", username)
+        .single()
+    if (result.error) {
+        throw result.error;
+    }
+
+    // if the user is the specified admin user, make sure to update the DB and apply it
+            const admin_user = Number(process.env.ADMIN_USER_ID ?? -1);
+            let role = result.data.userrole;
+            if (result.data.userid === admin_user && admin_user !== -1) {
+                update(result.data.userid, {
+                    userrole: 'admin'
+                });
+                role = 'admin';
+            }
+
+    const user = {...result.data, userrole: role} as User;
+    // TODO: do this
+    /* If we had passwords, we would verify them here.
+    if (!user || user.password !== _password) {
+        const error = { status: 401, message: "Invalid email or password" }
+        throw error
+    }
+    */
+    return new Promise((resolve, reject) => {
+        sign(
+            user,
+            process.env.JWT_SECRET || "secret",
+            { expiresIn: "1h" },
+            (err, token) => {
+                if (err || !token) {
+                    reject(err || new Error("Token generation failed"));
+                    return;
+                }
+                resolve({ token, user });
+            },
+        );
+    })
+}
 
 async function getAll(params: PagingRequest) {
     const db = connect();
@@ -27,21 +77,26 @@ async function getAll(params: PagingRequest) {
 
 async function getById(id: number) {
     const db = connect();
-    const result = await db.from("users").select("*").eq("userid", id).single();
+    const result = await db.from("users").select("*, post!userpostfk (count), reply!userreplyfk (count)").eq("userid", id).single();
     if (result.error) {
         throw {status: 404, message: "User not found"};
     }
+    result.data['posts'] = result.data['post'][0]['count'];
+    result.data['comments'] = result.data['reply'][0]['count'];
+    delete result.data['post'];
+    delete result.data['reply'];
     return result.data;
 }
 
-async function create(user: User) {
+async function create(user: User, userrole: Role) {
     const db = connect();
     const result = await db
         .from("users")
         .insert({
-            "username": user.userName,
-            "bio": user.BIO,
-            "creationdate": (new Date()).toISOString()
+            "username": user.username,
+            "bio": user.bio,
+            "creationdate": (new Date()).toISOString(),
+            "userrole": userrole
         })
         .select()
         .single();

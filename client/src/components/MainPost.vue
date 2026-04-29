@@ -1,23 +1,66 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-import type { Post } from '@/types';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import type { Reply, Post, Reaction } from '../../../server/types';
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { usePostStore } from '@/stores/post';
 import { useSessionStore } from '@/stores/session';
 
 const props = defineProps<{
-    post?: Post
+    post?: Post,
+    newComments: Reply[]
 }>()
 
 const postStore = usePostStore();
 const sessionStore = useSessionStore();
 
+const comments = ref<Reply[]>([]);
+function getComments() {
+    postStore.getComments(props.post?.postid ?? -1).then((result) => {comments.value = result;});
+}
+getComments();
+
+const reactionBox = ref("");
+
+const reactions = ref<Reaction[]>([]);
+function loadReactions() {
+    postStore.getReactions(props.post?.postid ?? -1).then((result) => {reactions.value = result;});
+}
+loadReactions();
+function addReaction(emoji?: string, toggle?: boolean) {
+    const content = emoji ? emoji : reactionBox.value;
+    postStore.addReaction(props.post?.postid ?? -1, content, toggle).then(() => {
+        loadReactions();
+    });
+}
+
+watch(
+  () => props.post,
+  () => {
+    comments.value = [];
+    reactions.value = [];
+    getComments();
+    loadReactions();
+  }
+)
+
 function deletePost() {
-    if (sessionStore.user.admin) {
-        postStore.deletePost(props.post?.id!);
+    if (sessionStore.user?.userrole === "admin") {
+        postStore.deletePost(Number(props.post?.postid));
     }
+}
+
+function groupReactions(array: Reaction[]) {
+    const newReactions = new Map();
+    for (const react of array) {
+        newReactions.set(react.content, newReactions.get(react.content) ? newReactions.get(react.content)+1 : 1);
+    }
+    const newArray: {emoji: string, count: number}[] = [];
+    for (const key of newReactions.keys()) {
+        newArray.push({emoji: key, count: newReactions.get(key)});
+    }
+    return newArray;
 }
 </script>
 
@@ -25,17 +68,26 @@ function deletePost() {
     <div class="post">
         <div class="postinner"></div>
         <div class="author">
-            {{ post?.user }}
-            <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user.admin }"
-                @click="deletePost()" v-if="sessionStore.user.admin" />
+            {{ post?.username }}
+            <FontAwesomeIcon :icon="faTrash" :class="{ 'cursor-pointer': sessionStore.user?.userrole === 'admin' }"
+                @click="deletePost()" v-if="sessionStore.user?.userrole === 'admin'" />
         </div>
         <div class="title m-4">{{ post?.title }}</div>
-        <div class="body">{{ post?.body }}</div>
+        <div class="reactions flex">
+            <div class="reaction m-2 p-2" v-for="reaction in groupReactions(reactions)" :key="reaction?.count + reaction?.emoji" @click="addReaction(reaction?.emoji, true)">
+                {{  reaction?.emoji }} {{ reaction?.count }}
+            </div>
+            <div class="reaction m-2 p-2">
+                <input type="text" v-model="reactionBox">
+                <a @click="addReaction(undefined, false)"><FontAwesomeIcon :icon="faPlus" /></a>
+            </div>
+        </div>
+        <div class="body">{{ post?.content }}</div>
     </div>
-    <div class="post" v-for="comment in post?.comments">
+    <div class="post" :key="comment.replyid" v-for="comment in comments.concat(props.newComments)">
         <div class="postinner"></div>
-        <div class="author">{{ comment?.user }}</div>
-        <div class="body">{{ comment?.body }}</div>
+        <div class="author">{{ comment?.username }}</div>
+        <div class="body">{{ comment?.content }}</div>
     </div>
 </template>
 
@@ -48,5 +100,10 @@ function deletePost() {
 
 .post {
     cursor: unset;
+}
+
+.reaction {
+    border: 1px solid black;
+    cursor: pointer;
 }
 </style>

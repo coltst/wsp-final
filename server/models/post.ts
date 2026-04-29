@@ -3,7 +3,7 @@ import { connect } from "./supabase";
 
 async function getAll(params: PagingRequest) {
     const db = connect();
-    let query = db.from("post").select("*", {count: "estimated"});
+    let query = db.from("post").select("*, userpostfk (username)", {count: "estimated"});
 
     // Search will search by content
     if (params?.search) {
@@ -23,7 +23,14 @@ async function getAll(params: PagingRequest) {
     if (result.error) {
         throw result.error;
     }
-    return { result: result.data as Post[], count: result.count || 0};
+    // apparently it's intended for supabase joins to create a new entry in the object
+    // returned by the name of the foreign key constraint or table you're taking that column from
+    // which looks bad
+    return { result: result.data.map((datum) => {
+        datum['username'] = datum['userpostfk']['username'];
+        delete datum['userpostfk'];
+        return datum;
+    }) as Post[], count: result.count || 0};
 }
 
 async function getById(id: number) {
@@ -42,7 +49,8 @@ async function create(post: Post, authorID: number) {
         .insert({
             "userid": authorID,
             "content": post.content,
-            "creationdate": (new Date()).toISOString()
+            "creationdate": (new Date()).toISOString(),
+            "title": post.title
         })
         .select()
         .single();
@@ -67,8 +75,24 @@ async function update(id: number, post: Partial<Post>) {
 }
 
 async function remove(id: number): Promise<Post> {
-    //TODO: remove replies
     const db = connect();
+    
+    const replyDeleteResult = await db
+    .from("reply")
+    .delete()
+    .eq("postid", id);
+    if (replyDeleteResult.error) {
+        throw replyDeleteResult.error;
+    }
+    
+    const reactDeleteResult = await db
+    .from("reaction")
+    .delete()
+    .eq("postid", id);
+    if (reactDeleteResult.error) {
+        throw reactDeleteResult.error;
+    }
+
     const result = await db
         .from("post")
         .delete()

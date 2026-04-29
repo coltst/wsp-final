@@ -1,38 +1,84 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import type { NewPost, Post } from '@/types'
-import dataPosts from '../data/posts.json'
+import { useSessionStore } from './session'
+//import type { NewPost, Post } from '@/types'
+//import dataPosts from '../data/posts.json'
+import type { Reply, DataEnvelope, DataListEnvelope, Post, Reaction } from "../../../server/types";
 
 export const usePostStore = defineStore('post', () => {
-  const posts = ref<Post[]>(dataPosts.posts)
-  const postNumber = ref<number>(11); // will be determined by DB
-  function addPost(post: NewPost) {
-    posts.value.push({
-      id: postNumber.value, // this will be determined by the DB later
-      title: post.title,
-      body: post.body,
-      tags: post.tags,
-      reactions: {"likes": 0, "dislikes": 0},
-      views: 0,
-      user: post.user,
-      comments: []
-    });
-    postNumber.value += 1;
-  }
-  function addComment(post_id: number, author: string, body: string) {
-    for (const post of posts.value) {
-      if (post.id === post_id) {
-        post.comments.push({
-          id: -1, // will be determined by DB later
-          body: body,
-          user: author
-        });
-      }
-    }
-  }
-  function deletePost(post_id: number) {
-    posts.value = posts.value.filter((post) => post.id !== post_id);
+  const session = useSessionStore();
+  const posts = ref<Post[]>([]);
+
+  // The store functions as the controller
+  async function loadPosts() {
+    const data = await session.api<DataListEnvelope<Post>>("/post");
+    posts.value = data.data;
   }
 
-  return { posts, addPost, deletePost, addComment }
+  async function getPost(id: number) {
+    return session.api<DataEnvelope<Post>>(`/post/${id}`);
+  }
+
+  async function addPost(post: Partial<Post>) {
+    const data = await session.api<DataEnvelope<Post>>(`/post/new`, post);
+    posts.value.push(data.data);
+    return data;
+  }
+
+  async function updatePost(id: number, post: Omit<Post, "postid">) {
+    const data = await session.api<DataEnvelope<Post>>(`/post/${id}`, post, {
+      method: 'PATCH',
+    })
+    const index = posts.value.findIndex((p) => p.postid === id)
+    if (index !== -1) {
+      posts.value[index] = data.data
+    }
+    return data
+  }
+
+  async function deletePost(id: number) {
+    const data = await session.api<DataEnvelope<Post>>(`/post/${id}`, null, {
+      method: 'DELETE',
+    })
+    const index = posts.value.findIndex((p) => p.postid === id)
+    if (index !== -1) {
+      posts.value.splice(index, 1)
+    }
+    return data
+  }
+
+  async function getComments(post_id: number) {
+    const data = await session.api<DataListEnvelope<Reply>>(`/reply/post/${post_id}`);
+    return data.data;
+  }
+
+  async function addComment(post_id: number, body: string) {
+    const data = await session.api<DataEnvelope<Post>>(`/reply/new`, {
+      "postid": post_id,
+      "content": body
+    });
+    return data;
+  }
+
+  async function getReactions(post_id: number) {
+    const data = await session.api<DataListEnvelope<Reaction>>(`/reaction/post/${post_id}`);
+    return data.data;
+  }
+  
+  async function addReaction(post_id: number, content: string, toggle?: boolean) {
+    if (toggle ?? false) {
+      const data = await session.api<DataEnvelope<Post>>(`/reaction/post/toggle/${post_id}`, {
+        "content": content
+      });
+      return data;
+    } else {
+      const data = await session.api<DataEnvelope<Post>>(`/reaction/new`, {
+        "postid": post_id,
+        "content": content
+      });
+      return data;
+    }
+  }
+
+  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments, getReactions, addReaction }
 })

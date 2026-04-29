@@ -11,12 +11,13 @@ import { ref } from 'vue';
 
 const router = useRouter();
 const userName = ref("");
-const email = ref("");
-
+const password = ref("");
 
 function register() {
     // don't sign the user in, but create the user.
-    router.push('/');
+    sessionStore.register(userName.value, password.value).then(() => {
+        router.push('/');
+    });
 }
 </script>
 
@@ -31,11 +32,11 @@ function register() {
             </div>
             <div>
                 <div class="w-full h-full flex flex-wrap justify-center items-center text-4xl">
-                    <p>Email:</p>
-                    <input class="emailbox" type="text" name="emailbox" id="emailbox" v-model="email">
-                    <div class="divider" />
                     <p>Username:</p>
                     <input class="loginbox" type="text" name="loginbox" id="loginbox" v-model="userName">
+                    <div class="divider" />
+                    <p>Password:</p>
+                    <input class="passwordbox" type="password" name="passwordbox" id="passwordbox" v-model="password">
                     <div class="divider" />
                     <button class="darkbutton" type="button" @click="register()">
                         <div class="darkbuttoninner" />
@@ -55,7 +56,7 @@ function register() {
     border: 1px solid grey;
 }
 
-.loginbox, .emailbox {
+.loginbox, .passwordbox {
     border-radius: 10% / 90%;
     border: 2px solid black;
     background-color: rgba(88, 88, 88, 0.3);

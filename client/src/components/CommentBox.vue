@@ -1,25 +1,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import type { Post } from '@/types';
+import type { Post } from '../../../server/types';
 
 const props = defineProps<{
     post?: Post
 }>()
 
 import { usePostStore } from '@/stores/post';
-import { useSessionStore } from '@/stores/session';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 const postStore = usePostStore();
-const sessionStore = useSessionStore();
 
 const text = ref("");
+
+const emit = defineEmits(["newComment"]);
 
 function sendComment() {
     // do not post if empty
     if ((text.value ? text.value : "").trim() !== "") {
-        postStore.addComment(props.post?.id!, sessionStore.user?.username.toString(), text.value);
+        postStore.addComment(props.post?.postid ?? -1, text.value).then((comment) => {
+            emit("newComment", comment.data);
+        });
         text.value = "";
     }
 }

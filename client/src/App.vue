@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import Toolbox from '@/components/Toolbox.vue';
+import ToolBox from '@/components/ToolBox.vue';
 </script>
 
 
 
 <template>
   <RouterView />
-  <Toolbox />
+  <ToolBox />
 </template>
 
 <style scoped></style>

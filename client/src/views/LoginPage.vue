@@ -14,12 +14,9 @@ const text = ref("");
 
 
 function login() {
-    sessionStore.setUser({
-        logged: text.value ? true : false,
-        username: text.value ? text.value : "",
-        admin: text.value === "admin" ? true : false // this will be done in the DB later
+    sessionStore.login(text.value, "none yet").then(() => {
+        router.push('/');
     });
-    router.push('/');
 }
 </script>
 
