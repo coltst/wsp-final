@@ -52,6 +52,11 @@ export const usePostStore = defineStore('post', () => {
     return data.data;
   }
 
+  async function getCommentsPaging(post_id: number, start: number, chunkSize: number) {
+    const data = await session.api<DataListEnvelope<Reply>>(`/reply/post/${post_id}?page=${start}&pageSize=${chunkSize ?? 5}`);
+    return data;
+  }
+
   async function addComment(post_id: number, body: string) {
     const data = await session.api<DataEnvelope<Post>>(`/reply/new`, {
       "postid": post_id,
@@ -64,7 +69,7 @@ export const usePostStore = defineStore('post', () => {
     const data = await session.api<DataListEnvelope<Reaction>>(`/reaction/post/${post_id}`);
     return data.data;
   }
-  
+
   async function addReaction(post_id: number, content: string, toggle?: boolean) {
     if (toggle ?? false) {
       const data = await session.api<DataEnvelope<Post>>(`/reaction/post/toggle/${post_id}`, {
@@ -80,5 +85,5 @@ export const usePostStore = defineStore('post', () => {
     }
   }
 
-  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments, getReactions, addReaction }
+  return { posts, addPost, deletePost, loadPosts, getPost, updatePost, addComment, getComments, getCommentsPaging, getReactions, addReaction }
 })
