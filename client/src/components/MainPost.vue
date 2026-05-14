@@ -135,11 +135,16 @@ function groupReactions(array: Reaction[]) {
           <div class="body">{{ comment?.content }}</div>
       </div>
     <div v-if="isLoading" class="flex justify-center py-3"><FontAwesomeIcon :icon="faTruckLoading"/></div>
-    <div v-if="(props.post?.postid !== -1) && (max !== -1)" class="flex justify-center py-3">Loaded {{ comments.array.length }} of {{ max }}</div>
     </div>
+    <div v-if="(props.post?.postid !== -1) && (max > 0)" class="py-4 flex justify-center loads">Loaded {{ comments.array.length }} of {{ max }}</div>
+
 </template>
 
 <style scoped>
+.loads {
+  background-color: rgba(105, 105, 105, 0.3);
+}
+
 .body {
     margin: 1rem;
     font-size: 80%;
