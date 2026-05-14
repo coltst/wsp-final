@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, getById, create, update, remove, getAllForPost } from "../models/reply";
+import { getAll, getById, getCount, create, update, remove, getAllForPost } from "../models/reply";
 import { DataEnvelope, DataListEnvelope, Reply } from "../types";
 
 const app = Router();
@@ -25,10 +25,12 @@ app.get("/", async (req, res) => {
         const { id } = req.params;
         const { page, pageSize } = req.query;
         const list = await getAllForPost({page: page ? Number(page) : undefined, pageSize: pageSize ? Number(pageSize): undefined}, Number(id));
+        const max = await getCount(Number(id));
         const response: DataListEnvelope<Reply> = {
             data: list.result,
             success: true,
-            total: list.result.length
+            total: list.result.length,
+            max: max
         };
         res.send(response);
     })

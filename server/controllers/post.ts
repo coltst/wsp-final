@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { getAll, getById, create, update, remove } from "../models/post";
+import { getCount } from "../models/reply";
 import { DataEnvelope, DataListEnvelope, Post } from "../types";
 
 const app = Router();
@@ -16,7 +17,7 @@ app.get("/", async (req, res) => {
     .get("/:id", async (req, res) => {
         const { id } = req.params;
         const response: DataEnvelope<Post> = {
-            data: await getById(Number(id)),
+            data: {...await getById(Number(id)), replies: await getCount(Number(id))},
             success: true
         };
         res.send(response);

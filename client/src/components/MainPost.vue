@@ -20,7 +20,7 @@ const sessionStore = useSessionStore();
 const comments = ref<{array: Reply[], loadedPost: number}>({array: [], loadedPost: -1});
 const chunkSize = 5;
 const reachedEnd = ref<boolean>(false);
-
+const max = ref<number>(0);
 const isLoading = ref<boolean>(false);
 
 const el = useTemplateRef('el');
@@ -38,6 +38,7 @@ async function fn() {
     // start from page 1 and divide page by number of already loaded posts
     const post = props.post?.postid ?? -1;
     const result = await postStore.getCommentsPaging(post, newPost ? 1 : Math.floor(currentlyLoadedPosts/chunkSize)+1, chunkSize);
+    max.value = result.max ?? -1;
     comments.value.array = comments.value.array.concat(result.data);
     comments.value.loadedPost = post;
     comments.value.array = comments.value.array.filter((comment) => comment.postid === props.post?.postid);
@@ -84,6 +85,7 @@ watch(
     resetList();
     reactions.value = [];
     loadReactions();
+    max.value = -1;
   }
 )
 
@@ -133,6 +135,7 @@ function groupReactions(array: Reaction[]) {
           <div class="body">{{ comment?.content }}</div>
       </div>
     <div v-if="isLoading" class="flex justify-center py-3"><FontAwesomeIcon :icon="faTruckLoading"/></div>
+    <div v-if="(props.post?.postid !== -1) && (max !== -1)" class="flex justify-center py-3">Loaded {{ comments.array.length }} of {{ max }}</div>
     </div>
 </template>
 

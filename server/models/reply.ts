@@ -45,7 +45,7 @@ async function getAllForPost(params: PagingRequest, postID: number) {
     }
     const page = params?.page || 1
     const pageSize = params?.pageSize || 10
-    
+
     const start = (page - 1) * pageSize
     query = query.range(start, start + pageSize - 1)
 
@@ -58,6 +58,12 @@ async function getAllForPost(params: PagingRequest, postID: number) {
         delete datum['userreplyfk'];
         return datum;
     }) as Reply[], count: result.count || 0};
+}
+
+async function getCount(id: number) {
+    const db = connect();
+    let result = db.from("reply").select("*, userreplyfk (username)", { count: "exact", head: false }).eq("postid", id);
+    return (await result).count;
 }
 
 async function getById(id: number) {
@@ -118,4 +124,4 @@ async function remove(id: number): Promise<Reply> {
     return result.data as Reply;
 }
 
-export { getAll, getById, getAllForPost, create, update, remove };
+export { getAll, getById, getAllForPost, getCount, create, update, remove };

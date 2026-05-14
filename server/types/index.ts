@@ -6,6 +6,7 @@ export type DataEnvelope<T> = {
 
 export type DataListEnvelope<T> = DataEnvelope<T[]> & {
     total: number
+    max?: number
 }
 
 export type PagingRequest = {
@@ -33,6 +34,7 @@ export type Post = {
     title: string
     userid?: number
     username?: string // returned by the server using a join
+    replies?: number
 }
 
 export type Reply = {
