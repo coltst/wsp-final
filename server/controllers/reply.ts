@@ -23,7 +23,8 @@ app.get("/", async (req, res) => {
     })
     .get("/post/:id", async (req, res) => {
         const { id } = req.params;
-        const list = await getAllForPost(req.body, Number(id));
+        const { page, pageSize } = req.query;
+        const list = await getAllForPost({page: page ? Number(page) : undefined, pageSize: pageSize ? Number(pageSize): undefined}, Number(id));
         const response: DataListEnvelope<Reply> = {
             data: list.result,
             success: true,

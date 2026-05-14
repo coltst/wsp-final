@@ -9,8 +9,8 @@ export type DataListEnvelope<T> = DataEnvelope<T[]> & {
 }
 
 export type PagingRequest = {
-    page?: number
-    pageSize?: number
+    page?: number | undefined
+    pageSize?: number | undefined
     search?: string
     sortBy?: string
     descending?: boolean

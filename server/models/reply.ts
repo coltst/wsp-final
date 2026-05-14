@@ -28,7 +28,6 @@ async function getAll(params: PagingRequest) {
     return { result: result.data as Reply[], count: result.count || 0};
 }
 
-
 async function getAllForPost(params: PagingRequest, postID: number) {
     const db = connect();
     let query = db.from("reply").select("*, userreplyfk (username)", {count: "estimated"});
@@ -46,6 +45,7 @@ async function getAllForPost(params: PagingRequest, postID: number) {
     }
     const page = params?.page || 1
     const pageSize = params?.pageSize || 10
+    
     const start = (page - 1) * pageSize
     query = query.range(start, start + pageSize - 1)
 
